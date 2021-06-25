@@ -7,5 +7,5 @@ def undirected_star_graph(N):
     graph.append([i, 1])
   return graph
   
-print(directed_star_graph(5))
+print(undirected_star_graph(5))
 
