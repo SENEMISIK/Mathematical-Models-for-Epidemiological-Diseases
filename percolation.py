@@ -2,6 +2,7 @@
 
 import numpy as np
 import graphs
+import random
 
 # Calculates the probability that the edge should not be removed -- the probability that transmission happens before recovery
 def calculate_perc_probability(beta, rho):
