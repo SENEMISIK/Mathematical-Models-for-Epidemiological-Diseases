@@ -126,6 +126,7 @@ def pref_attachment(graph, curr_nodes,n, N):
       p_node = deg/sum
       if np.random.rand() < p_node:
         graph.append([node, new_node])
+        graph.append([new_node, node])
     curr_nodes.append(new_node)
   return graph
 

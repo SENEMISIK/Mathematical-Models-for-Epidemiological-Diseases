@@ -60,8 +60,8 @@ def find_entire_connection(infected_nodes, graph, N):
 def calculateFinalInfection(numOfNodes, numOfInfectedNodes, graph, numOfTrials, transmissionRate, recoveryRate):
   num_infected = []
   for _ in range(numOfTrials):
-    graph = percolation(graph, transmissionRate, recoveryRate)
-    infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfNodes)], numOfInfectedNodes), graph, numOfNodes)
+    graph2 = percolation(graph, transmissionRate, recoveryRate)
+    infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfNodes)], numOfInfectedNodes), graph2, numOfNodes)
     num_infected.append(len(infected_nodes))
   return np.mean(num_infected)
 
