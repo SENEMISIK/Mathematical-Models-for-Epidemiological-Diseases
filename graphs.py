@@ -70,6 +70,37 @@ def stochastic_block(n, r, P):
                 graph.append([node1, node2])
   return graph
 
+# LATTICE GRAPH
+
+def lattice_graph(N):
+  size = int(math.sqrt(N))
+  if (size**2 != N):
+    size = size + 1
+  lattice = []
+  i = 1
+  while(i <= N):
+    row = []
+    for _ in range(size):
+      if (i > N):
+        row.append(0)
+      else:
+        row.append(i)
+        i += 1
+    lattice.append(row)
+  print(lattice)
+  graph = []
+  for i in range(len(lattice)):
+    for j in range(size-1):
+      if (lattice[i][j] != 0) and (lattice[i][j+1] != 0):
+        graph.append([lattice[i][j], lattice[i][j+1]])
+        graph.append([lattice[i][j+1], lattice[i][j]])
+  for i in range(len(lattice)-1):
+    for j in range(size):
+      if (lattice[i][j] != 0) and (lattice[i+1][j] != 0):
+        graph.append([lattice[i][j], lattice[i+1][j]])
+        graph.append([lattice[i+1][j], lattice[i][j]])
+  return graph
+
 # PREFERENTIAL ATTACHMENT
 
 def find_degree(node, graph):
