@@ -23,20 +23,14 @@ def percolation(graph, transmissionRate, recoveryRate):
   for i in graph:
     if (coinToss(transmissionRate, recoveryRate)):
       newGraph.append(i)
-      #print (graph)
   return newGraph
 
 def percolation2(graph, perc_prob):
-  #print(graph)
-  #print (len(graph))
   random_num = np.random.rand()
-  #print (random_num)
   newGraph = []
   for i in graph:
     if (random_num < perc_prob):
       newGraph.append(i)
-  #print (len(newGraph))
-  #print(newGraph)
   return newGraph
       
 def tuples_to_dict(graph, N):
@@ -55,7 +49,6 @@ def find_connected_nodes(node, graph_dict, connected_component):
       find_connected_nodes(neighbor, graph_dict, connected_component)
 
 def find_entire_connection(infected_nodes, graph, N):
-  #print (len(graph)/N)
   graph_dict = tuples_to_dict(graph, N)
   #print (graph_dict)
   connected_nodes = []
@@ -64,10 +57,9 @@ def find_entire_connection(infected_nodes, graph, N):
   #print(connected_nodes)   
   return connected_nodes
 
-def calculateFinalInfection(numOfInfectedNodes, numOfNodes, numOfEdges, numOfTrials, transmissionRate, recoveryRate):
+def calculateFinalInfection(numOfNodes, numOfInfectedNodes, graph, numOfTrials, transmissionRate, recoveryRate):
   num_infected = []
   for _ in range(numOfTrials):
-    graph = graphs.erdos_renyi_graph(numOfNodes, numOfEdges)
     graph = percolation(graph, transmissionRate, recoveryRate)
     infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfNodes)], numOfInfectedNodes), graph, numOfNodes)
     num_infected.append(len(infected_nodes))
