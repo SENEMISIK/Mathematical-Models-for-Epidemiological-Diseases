@@ -33,7 +33,7 @@ def process_trans_SIR(nodes, graph_dict, node, time, transmissionRate, recoveryR
   node.rec_time = time + np.random.exponential(1/recoveryRate) #check if 1/recovery
   if (node.rec_time < tmax):
     newEvent = Event(node, node.rec_time, 'recover')
-    heapq.heappush(Q, (node.rec_time, newEvent))
+    heapq.heappush(Q, (node.rec_time, node.name, newEvent))
   for neighbor in graph_dict[node.name]:
     v = nodes[neighbor]
     find_trans_SIR(Q, time, transmissionRate, node, v, tmax)
@@ -43,7 +43,7 @@ def find_trans_SIR(Q, time, transmissionRate, node, neighbor, tmax):
     inf_time = time + np.random.exponential(1/transmissionRate)
     if (inf_time < min(node.rec_time, neighbor.pred_inf_time, tmax)):
       newEvent = Event(neighbor, inf_time, 'transmit')
-      heapq.heappush(Q, (newEvent.time, newEvent))
+      heapq.heappush(Q, (newEvent.time, node.name, newEvent))
       neighbor.pred_inf_time = inf_time
 
 def process_rec_SIR(node, time, times, S, I, R):
@@ -65,9 +65,9 @@ def process_SIR_model(nodes, graph_dict, transmissionRate, recoveryRate, infecte
     if node.name in infected_nodes:
       node.pred_inf_time = 0
       event = Event(node, 0, 'transmit')
-      heapq.heappush(Q, (event.time, event))
+      heapq.heappush(Q, (event.time, node.name, event))
   while (Q != []):
-    event = heapq.heappop(Q)[1]
+    event = heapq.heappop(Q)[2]
     if (event.action == 'transmit'):
       if (event.node.status == 's'):
         process_trans_SIR(nodes, graph_dict, event.node, event.time, transmissionRate, recoveryRate, times, S, I, R, Q, tmax)
