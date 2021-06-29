@@ -65,12 +65,10 @@ def calculateFinalInfection(numOfNodes, numOfInfectedNodes, graph, numOfTrials, 
     num_infected.append(len(infected_nodes))
   return np.mean(num_infected)
 
-def calculateFinalInfection2(numOfInfectedNodes, numOfNodes, numOfEdges, numOfTrials, perc_prob):
+def calculateFinalInfection2(numOfInfectedNodes, numOfNodes, numOfEdges, numOfTrials, perc_prob, graph):
   num_infected = []
   for _ in range(numOfTrials):
-    graph = graphs.erdos_renyi_graph(numOfNodes, numOfEdges)
-    graph = percolation2(graph, perc_prob)
-    #print (len(graph))
-    infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfNodes)], numOfInfectedNodes), graph, numOfNodes)
+    graph2 = percolation2(graph, perc_prob)
+    infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfNodes)], numOfInfectedNodes), graph2, numOfNodes)
     num_infected.append(len(infected_nodes))
   return np.mean(num_infected)
