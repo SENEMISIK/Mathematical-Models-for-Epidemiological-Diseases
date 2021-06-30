@@ -26,9 +26,9 @@ def percolation(graph, transmissionRate, recoveryRate):
   return newGraph
 
 def percolation2(graph, perc_prob):
-  random_num = np.random.rand()
   newGraph = []
   for i in graph:
+    random_num = np.random.rand()
     if (random_num < perc_prob):
       newGraph.append(i)
   return newGraph
