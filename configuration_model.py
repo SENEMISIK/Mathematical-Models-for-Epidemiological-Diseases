@@ -17,7 +17,7 @@ def config_model(deg_dist, n):
 
   graph = []
   i = 0
-  print('a')
+  
 
   while (i < numedges):
     listOfNodes = list(degreeOfNodes.keys())
@@ -31,6 +31,7 @@ def config_model(deg_dist, n):
         i += 1
         if (degreeOfNodes[node1] == 0): del degreeOfNodes[node1]
         if (degreeOfNodes[node2] == 0): del degreeOfNodes[node2]
+        print(i)
   return graph
 
 def findComponentSizes(graph, n):
