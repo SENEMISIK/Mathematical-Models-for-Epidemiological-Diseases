@@ -21,9 +21,9 @@ def config_model(deg_dist, n):
   print('a')
 
   while (i < numedges):
-    listOfNodes = list(degreeOfNodes.items())
-    node1 = np.random.choice(listOfNodes)[0]
-    node2 = np.random.choice(listOfNodes)[0]
+    listOfNodes = list(degreeOfNodes.keys())
+    node1 = np.random.choice(listOfNodes)
+    node2 = np.random.choice(listOfNodes)
     if (node1 != node2 and [node1, node2] not in graph):
         graph.append([node1, node2])
         graph.append([node2, node1])
