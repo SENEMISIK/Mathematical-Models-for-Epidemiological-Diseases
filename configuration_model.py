@@ -44,4 +44,5 @@ def findComponentSizes(graph, n):
     for i in connected_nodes:
       node_list.remove(i)
     component_sizes.append(len(connected_nodes))
+    print(node_list)
   return component_sizes
