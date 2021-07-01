@@ -31,7 +31,7 @@ def config_model(deg_dist, n):
         i += 1
         if (degreeOfNodes[node1] == 0): del degreeOfNodes[node1]
         if (degreeOfNodes[node2] == 0): del degreeOfNodes[node2]
-        print(i)
+        # print(i)
   return graph
 
 def findComponentSizes(graph, n):
@@ -45,5 +45,5 @@ def findComponentSizes(graph, n):
     for i in connected_nodes:
       node_list.remove(i)
     component_sizes.append(len(connected_nodes))
-    print(node_list)
+    # print(node_list)
   return component_sizes
