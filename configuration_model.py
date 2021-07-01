@@ -1,6 +1,5 @@
 import numpy as np
 import percolation
-import graphs
 
 def config_model(deg_dist, n):
   node_list = np.arange(n)
@@ -35,7 +34,7 @@ def config_model(deg_dist, n):
   return graph
 
 def findComponentSizes(graph, n):
-  graph_dict = graphs.tuples_to_dict(graph, n)
+  graph_dict = percolation.tuples_to_dict(graph, n)
   node_list = [i for i in range(n)]
   component_sizes = []
   while node_list != []:
