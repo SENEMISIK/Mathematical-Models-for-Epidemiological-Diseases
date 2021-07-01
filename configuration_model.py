@@ -18,7 +18,8 @@ def config_model(deg_dist, n):
 
   graph = []
   i = 0
-
+  print(degreeOfNodes)
+  
   while (i < numedges):
     node_list = list(degreeOfNodes.items())
     node1 = np.random.choice(node_list)[0]
