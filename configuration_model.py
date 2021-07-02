@@ -1,5 +1,12 @@
 import numpy as np
-import percolation
+
+def tuples_to_dict(graph, N):
+  graph_dict = {}
+  for i in range(N):
+    graph_dict[i] = []
+  for edge in graph:
+    graph_dict[edge[0]].append(edge[1])
+  return graph_dict
 
 def config_model(deg_dist, n):
   node_list = np.arange(n)
@@ -19,11 +26,14 @@ def config_model(deg_dist, n):
   i = 0
   
 
-  while (i < numedges):
+  while (len(degreeOfNodes) > 2):
     listOfNodes = list(degreeOfNodes.keys())
     node1 = np.random.choice(listOfNodes)
     node2 = np.random.choice(listOfNodes)
+    # print (node1)
+    # print (node2)
     if (node1 != node2 and [node1, node2] not in graph):
+        # print(graph)
         graph.append([node1, node2])
         graph.append([node2, node1])
         degreeOfNodes[node1] -= 1
@@ -34,14 +44,21 @@ def config_model(deg_dist, n):
         # print(i)
   return graph
 
+def find_connected_nodes(node, graph_dict, connected_component):
+  if node not in connected_component:
+    connected_component.append(node)
+  for neighbor in graph_dict[node]:
+    if neighbor not in connected_component:
+      find_connected_nodes(neighbor, graph_dict, connected_component)
+
 def findComponentSizes(graph, n):
-  graph_dict = percolation.tuples_to_dict(graph, n)
+  graph_dict = tuples_to_dict(graph, n)
   node_list = [i for i in range(n)]
   component_sizes = []
   while node_list != []:
     node = np.random.choice(node_list)
     connected_nodes = []
-    percolation.find_connected_nodes(node, graph_dict, connected_nodes)
+    find_connected_nodes(node, graph_dict, connected_nodes)
     for i in connected_nodes:
       node_list.remove(i)
     component_sizes.append(len(connected_nodes))
