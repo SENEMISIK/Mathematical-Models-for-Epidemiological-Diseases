@@ -18,7 +18,7 @@ def coinToss(beta, rho):
   return False
 
 # Tosses a coin for each edge and remove those that coinToss outputs False
-def percolation(graph, transmissionRate, recoveryRate):
+def percolation1(graph, transmissionRate, recoveryRate):
   newGraph = []
   for i in graph:
     if (coinToss(transmissionRate, recoveryRate)):
