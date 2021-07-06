@@ -3,20 +3,7 @@
 import numpy as np
 import graphs
 import random
-
-# Calculates the probability that the edge should not be removed -- the probability that transmission happens before recovery
-def calculate_perc_probability(beta, rho):
-  return (beta/(beta + rho))
-
-def coinToss(beta, rho):
-  perc_prob = calculate_perc_probability(beta, rho)
-  #print (perc_prob)
-  random_num = np.random.rand()
-  #print (random_num)
-  if random_num < perc_prob:
-    return True #don't remove
-  return False
-      
+ 
 def tuples_to_dict(graph, N):
   graph_dict = {}
   for i in range(N):
@@ -30,7 +17,9 @@ def percolation(graph, neighbors_per_node, transmissionRate, recoveryRate):
     for node in neighbors_per_node:
         recoveryTime = np.random.exponential(1/recoveryRate)
         for neighbor in neighbors_per_node[node]:
-            if (np.random.exponential(1/transmissionRate) < recoveryTime):
+            transmissionTime = np.random.exponential(1/transmissionRate)
+            print(transmissionTime)
+            if (transmissionTime < recoveryTime):
                 graph.append([node, neighbor])
             else:
                 neighbors_per_node[node].remove(neighbor)
@@ -43,7 +32,7 @@ def find_connected_nodes(node, graph_dict, connected_component):
     if neighbor not in connected_component:
       find_connected_nodes(neighbor, graph_dict, connected_component)
 
-def find_entire_connection(infected_nodes, graph, neighbors_per_node):
+def find_entire_connection(infected_nodes, neighbors_per_node):
   connected_nodes = []
   for node in infected_nodes:
     find_connected_nodes(node, neighbors_per_node, connected_nodes)
