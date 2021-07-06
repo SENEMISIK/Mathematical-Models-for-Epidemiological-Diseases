@@ -110,6 +110,12 @@ def find_degree(node, graph):
       degree += 1
   return degree
 
+def make_deg_dict(graph, curr_nodes):
+  degDict = {}
+  for i in curr_nodes:
+    degDict[i] = find_degree(i, graph)
+  return degDict
+
 def sum_degs(graph, curr_nodes):
   sum = 0
   for node in curr_nodes:
@@ -118,15 +124,20 @@ def sum_degs(graph, curr_nodes):
   return sum
 
 def pref_attachment(graph, curr_nodes,n, N):
+  degDict = make_deg_dict(graph, curr_nodes)
   for i in range(N):
     new_node = n + i
+    degDict[new_node] = 0
     for node in curr_nodes:
-      deg = find_degree(node, graph)
+      deg = degDict[node]
       sum = sum_degs(graph, curr_nodes)
       p_node = deg/sum
       if np.random.rand() < p_node:
         graph.append([node, new_node])
+        degDict[node] += 1
         graph.append([new_node, node])
+        degDict[new_node] += 1
     curr_nodes.append(new_node)
   return graph
+
 
