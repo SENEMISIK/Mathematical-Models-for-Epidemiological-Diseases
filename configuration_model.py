@@ -8,7 +8,7 @@ def tuples_to_dict(graph, N):
     graph_dict[edge[0]].append(edge[1])
   return graph_dict
 
-def config_model(deg_dist, n):
+def config_model2(deg_dist, n):
   node_list = np.arange(n)
   degreeOfNodes = {}
   for key in deg_dist:
@@ -24,7 +24,6 @@ def config_model(deg_dist, n):
 
   graph = []
   i = 0
-  
 
   while (len(degreeOfNodes) > 2):
     listOfNodes = list(degreeOfNodes.keys())
@@ -42,6 +41,35 @@ def config_model(deg_dist, n):
         if (degreeOfNodes[node1] == 0): del degreeOfNodes[node1]
         if (degreeOfNodes[node2] == 0): del degreeOfNodes[node2]
         # print(i)
+  return graph
+
+def config_model(deg_dist, n):
+  node_list = np.arange(n)
+  degreeOfNodes = {}
+  for key in deg_dist:
+    num_nodes = int(round(deg_dist[key]*n))
+    nodes = node_list[:num_nodes]
+    for node in nodes:
+      degreeOfNodes[node] = key
+    node_list = node_list[num_nodes:]
+  sum_degs = 0
+  for key in deg_dist:
+    sum_degs += key*n*deg_dist[key]
+  # numedges = sum_degs/2
+  half_edges = []
+  for node in degreeOfNodes:
+    deg = degreeOfNodes[node]
+    for i in range(deg):
+      half_edges.append(node)
+  graph = []
+  while half_edges != []:
+    node1 = np.random.choice(half_edges)
+    node2 = np.random.choice(half_edges)
+    if (node1 != node2 and [node1, node2] not in graph):
+      graph.append([node1, node2])
+      graph.append([node2, node1])
+      half_edges.remove(node1)
+      half_edges.remove(node2)
   return graph
 
 def find_connected_nodes(node, graph_dict, connected_component):
