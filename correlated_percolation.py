@@ -18,8 +18,7 @@ def percolation(graph, neighbors_per_node, transmissionRate, recoveryRate):
         recoveryTime = np.random.exponential(1/recoveryRate)
         for neighbor in neighbors_per_node[node]:
             transmissionTime = np.random.exponential(1/transmissionRate)
-            
-            if (transmissionTime < recoveryTime):
+            if (transmissionTime <= recoveryTime):
                 graph.append([node, neighbor])
             else:
                 neighbors_per_node[node].remove(neighbor)
