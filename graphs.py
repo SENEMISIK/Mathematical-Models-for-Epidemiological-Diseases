@@ -207,6 +207,9 @@ def config_model2_rec(deg_dist, n):
   
 def triangle(N):
   node_list = np.arange(N)
+  triangles = {}
+  for node in node_list:
+    triangles[node] = [3 * node, 3 * node + 1, 3 * node + 2]
   triangleGraph = []
   for node in node_list:
     triangleGraph.append([node * 3, node * 3 + 1])
@@ -218,14 +221,10 @@ def triangle(N):
   graph = config_model2_rec({3:1}, N)
   dictionary = tuples_to_dict(graph, N)
   for node in dictionary:
-    options = [node * 3, node * 3 + 1, node * 3 + 2]
-    for option in options:
-      for neighbor in dictionary[node]:
-        neighborOptions = [neighbor * 3, neighbor * 3 + 1, neighbor * 3 + 2]
-        for neighborOption in neighborOptions:
-          if [option, neighborOption] not in triangleGraph:
-            triangleGraph.append([option, neighborOption])
-            triangleGraph.append([neighborOption, option])
-            break
-  return triangleGraph
-      
+    for neighbor in dictionary[node]:
+      triangleGraph.append([triangles[node][0], triangles[neighbor][0]])
+      triangleGraph.append([triangles[neighbor][0], triangles[node][0]])
+      del triangles[node][0]
+      del triangles[neighbor][0]
+      dictionary[neighbor].remove(node)
+  return triangleGraph  
