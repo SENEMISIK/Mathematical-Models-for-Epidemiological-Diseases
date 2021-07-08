@@ -20,7 +20,7 @@ def config_model(deg_dist, n):
   sum_degs = 0
   for key in deg_dist:
     sum_degs += key*n*deg_dist[key]
-  numedges = sum_degs/2
+  # numedges = sum_degs/2
 
   graph = []
   i = 0

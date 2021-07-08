@@ -140,6 +140,92 @@ def pref_attachment(graph, curr_nodes,n, N):
     curr_nodes.append(new_node)
   return graph
 
+# TRIANGLE INSIDE THE CONFIGURATION MODEL
+
+def config_model2(deg_dist, n):
+  node_list = np.arange(n)
+  degreeOfNodes = {}
+  for key in deg_dist:
+    num_nodes = int(round(deg_dist[key]*n))
+    nodes = node_list[:num_nodes]
+    for node in nodes:
+      degreeOfNodes[node] = key
+    node_list = node_list[num_nodes:]
+  sum_degs = 0
+  for key in deg_dist:
+    sum_degs += key*n*deg_dist[key]
+  numedges = sum_degs/2
+  half_edges = []
+  for node in degreeOfNodes:
+    deg = degreeOfNodes[node]
+    for i in range(deg):
+      half_edges.append(node)
+  graph = []
+  while half_edges != []:
+    node1 = np.random.choice(half_edges)
+    node2 = np.random.choice(half_edges)
+
+    if (node1 != node2 and [node1, node2] not in graph):
+      graph.append([node1, node2])
+      graph.append([node2, node1])
+      half_edges.remove(node1)
+      half_edges.remove(node2)
+  return graph
+
+def tuples_to_dict(graph, N):
+  graph_dict = {}
+  for i in range(N):
+    graph_dict[i] = []
+  for edge in graph:
+    graph_dict[edge[0]].append(edge[1])
+  return graph_dict
+
+import signal
+from contextlib import contextmanager
+import configuration_model
+import numpy as np
+
+class TimeoutException(Exception): pass
+
+@contextmanager
+def time_limit(seconds):
+    def signal_handler(signum, frame):
+        raise TimeoutException("Timed out!")
+    signal.signal(signal.SIGALRM, signal_handler)
+    signal.alarm(seconds)
+    try:
+        yield
+    finally:
+        signal.alarm(0)
+
+def config_model2_rec(deg_dist, n): 
+  try:
+    with time_limit(1):
+      return config_model2(deg_dist, n)
+  except TimeoutException as e:
+    return config_model2(deg_dist, n)
   
-
-
+def triangle(N):
+  node_list = np.arange(N)
+  triangleGraph = []
+  for node in node_list:
+    triangleGraph.append([node * 3, node * 3 + 1])
+    triangleGraph.append([node * 3 + 1 , node * 3])
+    triangleGraph.append([node * 3, node * 3 + 2])
+    triangleGraph.append([node * 3 + 2 , node * 3])
+    triangleGraph.append([node * 3 + 1, node * 3 + 2])
+    triangleGraph.append([node * 3 + 2 , node * 3 + 1])
+  graph = config_model2_rec({3:1}, N)
+  dictionary = tuples_to_dict(graph, N)
+  for node in dictionary:
+    options = [node * 3, node * 3 + 1, node * 3 + 2]
+    for option in options:
+      for neighbor in dictionary[node]:
+        neighborOptions = [neighbor * 3, neighbor * 3 + 1, neighbor * 3 + 2]
+        for neighborOption in neighborOptions:
+          if [option, neighborOption] not in triangleGraph:
+            triangleGraph.append([option, neighborOption])
+            triangleGraph.append([neighborOption, option])
+            break
+  return triangleGraph
+      
