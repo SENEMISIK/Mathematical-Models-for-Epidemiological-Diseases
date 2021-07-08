@@ -140,4 +140,6 @@ def pref_attachment(graph, curr_nodes,n, N):
     curr_nodes.append(new_node)
   return graph
 
+  
+
 

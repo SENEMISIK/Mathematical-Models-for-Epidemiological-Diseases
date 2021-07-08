@@ -8,7 +8,7 @@ def tuples_to_dict(graph, N):
     graph_dict[edge[0]].append(edge[1])
   return graph_dict
 
-def config_model2(deg_dist, n):
+def config_model(deg_dist, n):
   node_list = np.arange(n)
   degreeOfNodes = {}
   for key in deg_dist:
@@ -24,6 +24,7 @@ def config_model2(deg_dist, n):
 
   graph = []
   i = 0
+  
 
   while (len(degreeOfNodes) > 2):
     listOfNodes = list(degreeOfNodes.keys())
@@ -43,7 +44,7 @@ def config_model2(deg_dist, n):
         # print(i)
   return graph
 
-def config_model(deg_dist, n):
+def config_model2(deg_dist, n):
   node_list = np.arange(n)
   degreeOfNodes = {}
   for key in deg_dist:
@@ -55,7 +56,7 @@ def config_model(deg_dist, n):
   sum_degs = 0
   for key in deg_dist:
     sum_degs += key*n*deg_dist[key]
-  # numedges = sum_degs/2
+  numedges = sum_degs/2
   half_edges = []
   for node in degreeOfNodes:
     deg = degreeOfNodes[node]
@@ -65,6 +66,7 @@ def config_model(deg_dist, n):
   while half_edges != []:
     node1 = np.random.choice(half_edges)
     node2 = np.random.choice(half_edges)
+
     if (node1 != node2 and [node1, node2] not in graph):
       graph.append([node1, node2])
       graph.append([node2, node1])
@@ -84,11 +86,15 @@ def findComponentSizes(graph, n):
   node_list = [i for i in range(n)]
   component_sizes = []
   while node_list != []:
+    #print (node_list)
     node = np.random.choice(node_list)
     connected_nodes = []
     find_connected_nodes(node, graph_dict, connected_nodes)
+    #print (connected_nodes)
     for i in connected_nodes:
+      #print (i)
       node_list.remove(i)
+
     component_sizes.append(len(connected_nodes))
     # print(node_list)
   return component_sizes
