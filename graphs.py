@@ -101,6 +101,76 @@ def lattice_graph(N):
         graph.append([lattice[i+1][j], lattice[i][j]])
   return graph
 
+# LATTICE WRAPPED
+
+def regular_lattice(N):
+  size = int(math.sqrt(N))
+  if (size**2 != N):
+    size = size
+  lattice = []
+  i = 0
+  while (i < N):
+    row = []
+    for _ in range(size):
+      if (i > N):
+        row.append(0)
+      else:
+        row.append(i)
+        i += 1
+    lattice.append(row)
+  print(lattice)
+  graph = []
+  for i in range(size):
+    for j in range(size):
+      graph.append([lattice[i][j], lattice[i][(j+1)% size]])
+      graph.append([lattice[i][(j+1)% size], lattice[i][j]])
+      
+  for i in range(size):
+    for j in range(size):
+      graph.append([lattice[i][j], lattice[(i+1)%size][j]])
+      graph.append([lattice[(i+1)%size][j], lattice[i][j]])
+  return graph
+
+# LATTICE WITH HOUSEHOLDS
+
+def square(node1, node2, node3, node4):
+  graph = []
+  graph.append([node1, node2])
+  graph.append([node2, node1])
+  graph.append([node2, node3])
+  graph.append([node3, node2])
+  graph.append([node3, node4])
+  graph.append([node4, node3])
+  graph.append([node4, node1])
+  graph.append([node1, node4])
+  return graph
+
+def lattice_households(N):
+  old_graph = regular_lattice(N)
+  node_list = np.arange(N)
+  square_dict = {}
+  for node in node_list:
+    square_dict[node] = [4*node, 4*node + 1, 4*node + 2, 4*node + 3]
+  graph_dict = tuples_to_dict(old_graph, N)
+  new_graph = []
+  for node in node_list:
+    square1_nodes = square_dict[node]
+    square1 = square(square1_nodes[0], square1_nodes[1], square1_nodes[2], square1_nodes[3])
+    for edge in square1:
+        new_graph.append(edge)
+  for node in node_list:
+    i = 0
+    square1_nodes = square_dict[node]
+    for neighbor in graph_dict[node]:
+      square2_nodes = square_dict[neighbor]
+      new_graph.append([square1_nodes[0], square2_nodes[0]])
+      new_graph.append([square2_nodes[0], square1_nodes[0]])
+      square_dict[node].remove(square1_nodes[0])
+      square_dict[neighbor].remove(square2_nodes[0])
+      graph_dict[neighbor].remove(node)
+      i += 1
+  return new_graph
+
 # PREFERENTIAL ATTACHMENT
 
 def find_degree(node, graph):
@@ -139,6 +209,31 @@ def pref_attachment(graph, curr_nodes,n, N):
         degDict[new_node] += 1
     curr_nodes.append(new_node)
   return graph
+
+# TRIANGLE GRAPH
+
+def triangle_graph(numTriangles, numConnections):
+  graph = []
+  i = 0
+  triangles = []
+  for _ in range(numTriangles):
+    graph.append([i, i + 1])
+    graph.append([i + 1, i + 2])
+    graph.append([i + 2, i])
+    triangles.append([i, i + 1, i + 2])
+    i += 3
+    
+  for _ in range(numConnections):
+    trinodes = random.sample([i for i in range(len(triangles))], 2)
+    triangle1 = triangles[trinodes[0]]
+    print (triangle1)
+    triangle2 = triangles[trinodes[1]]
+    node1 = np.random.choice(triangle1)
+    node2 = np.random.choice(triangle2)
+    if [node1, node2] not in graph:
+      graph.append([node1, node2])
+  return graph
+
 
 # TRIANGLE INSIDE THE CONFIGURATION MODEL
 
@@ -229,6 +324,3 @@ def triangle(N):
       dictionary[neighbor].remove(node)
   return triangleGraph  
 
-
-
-  
