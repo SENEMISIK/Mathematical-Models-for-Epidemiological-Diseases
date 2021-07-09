@@ -228,3 +228,7 @@ def triangle(N):
       del triangles[neighbor][0]
       dictionary[neighbor].remove(node)
   return triangleGraph  
+
+
+
+  
