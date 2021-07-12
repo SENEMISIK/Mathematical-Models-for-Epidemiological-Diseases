@@ -42,6 +42,8 @@ def degree_to_edge_distribution(probabilityDict):
     for key in probabilityDict:
         halfEdgeDict[key - 1] = key * probabilityDict[key]
         sum += halfEdgeDict[key - 1]
+        print(sum)
+    print(halfEdgeDict)
     for key in halfEdgeDict:
         halfEdgeDict[key] = halfEdgeDict[key] / sum
     print(halfEdgeDict)
