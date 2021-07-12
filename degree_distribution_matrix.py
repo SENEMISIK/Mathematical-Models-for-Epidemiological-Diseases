@@ -35,6 +35,7 @@ def generate_correlated_percolation_matrix(n, p, B):
                 matrix[row][col] = (math.comb(col, row) * math.factorial(row) * B**(row) * p) / result2
             row += 1
         col += 1
+    print(matrix)
     return matrix
 
 def degree_to_edge_distribution(probabilityDict):
