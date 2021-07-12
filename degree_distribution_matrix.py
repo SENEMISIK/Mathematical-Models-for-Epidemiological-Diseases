@@ -35,7 +35,7 @@ def generate_correlated_percolation_matrix(n, p, B):
                 matrix[row][col] = (math.comb(col, row) * math.factorial(row) * B**(row) * p) / result2
             row += 1
         col += 1
-    print(matrix)
+    # print(matrix)
     return matrix
 
 def degree_to_edge_distribution(probabilityDict):
@@ -133,8 +133,12 @@ def degree_distribution_calculation2(numOfNodes, rho, beta, probabilityDict):
     print("Correlated matrix: " + str(sir_matrix))
     
     second_degree_dict = degree_to_edge_distribution(probabilityDict)
+
     percolation_second_degree = apply_percolation(second_degree_dict, percolation_matrix)
+    print("2nd Degree (Normal)" + percolation_second_degree)
+
     sir_second_degree = apply_percolation(second_degree_dict, sir_matrix)
+    print("2nd Degree (Correlated)" + sir_second_degree)
     
     normal_extinction = calculate_extinction_probability(percolation_second_degree)
     print("Normal Extinction: " + str(normal_extinction))
