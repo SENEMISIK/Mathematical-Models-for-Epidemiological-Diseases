@@ -118,6 +118,7 @@ def apply_percolation(probabilityDict, matrix):
     print(matrix)
     print(probability_vector)
     afterPercolation = np.dot(matrix, probability_vector)
+    print(np.sum(afterPercolation))
     print(afterPercolation)
     newDict = {}
     for i in range(len(afterPercolation)):
