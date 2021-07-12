@@ -87,7 +87,7 @@ def degree_distribution_calculation1(numOfNodes, rho, beta, probabilityDict):
     for i in range(len(normalPercolation)):
         normalPercolationDict[i] = normalPercolation[i]
     correlatedPercolation = np.dot(correlated_percolation_matrix, probability_vector)
-    
+
     correlatedPercolationDict = {}
     for i in range(len(correlatedPercolation)):
         correlatedPercolationDict[i] = correlatedPercolation[i]
@@ -100,13 +100,16 @@ def degree_distribution_calculation1(numOfNodes, rho, beta, probabilityDict):
     
     print("Normal Percolation: " + str(percolation_matrix))
     print("Normal Probability: " + str(normal_extinction))
-    print("Size: " + str(normal_size))
 
     print(" ")
     
     print("Correlated Percolation: " + str(correlated_percolation_matrix))
     print("Correlated Probability: " + str(correlated_extinction))
-    print("Size : " + str(percolated_size))
+
+    print(" ")
+
+    print("Normal Size: " + str(normal_size))
+    print("Percolation Size : " + str(percolated_size))
 
 def apply_percolation(probabilityDict, matrix):
     probability_vector = []
