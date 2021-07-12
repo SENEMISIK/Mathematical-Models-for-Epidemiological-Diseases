@@ -24,7 +24,7 @@ def generate_correlated_percolation_matrix(n, p, B):
                 list = []
                 for i in range(1, col+1):
                     list.append(i * B + p)
-                matrix[row][col] = (math.factorial(row) * B^(row)) / result
+                matrix[row][col] = (math.factorial(row) * B**(row)) / result
             else:
                 list = []
                 for i in range(col-row, col+1):
