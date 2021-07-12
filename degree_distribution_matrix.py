@@ -75,9 +75,9 @@ def degree_distribution_calculation1(numOfNodes, rho, beta, probabilityDict):
         if (key > maxInDegree):
             maxInDegree = key
     percolation_matrix = generate_percolation_matrix(maxInDegree, rho, beta)
-    print(percolation_matrix)
+    # print(percolation_matrix)
     correlated_percolation_matrix = generate_correlated_percolation_matrix(maxInDegree, rho, beta)
-    print(correlated_percolation_matrix)
+    # print(correlated_percolation_matrix)
     probability_vector = []
     for key in probabilityDict:
         probability_vector.append(probabilityDict[key])
@@ -90,9 +90,9 @@ def degree_distribution_calculation1(numOfNodes, rho, beta, probabilityDict):
     for i in range(len(correlatedPercolation)):
         correlatedPercolationDict[i] = correlatedPercolation[i]
     normal_extinction = calculate_extinction_probability(degree_to_edge_distribution(normalPercolationDict))
-    print(normal_extinction)
+    # print(normal_extinction)
     correlated_extinction = calculate_extinction_probability(degree_to_edge_distribution(correlatedPercolationDict))
-    print(correlated_extinction)
+    # print(correlated_extinction)
     print("Percolation: " + str(calculate_giant_component_size(normal_extinction, normalPercolationDict, numOfNodes)))
     print("Correlated Percolation: " + str(calculate_giant_component_size(correlated_extinction, correlatedPercolationDict, numOfNodes)))
 
