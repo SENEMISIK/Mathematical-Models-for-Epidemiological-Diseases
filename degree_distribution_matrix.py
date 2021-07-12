@@ -115,6 +115,8 @@ def apply_percolation(probabilityDict, matrix):
     probability_vector = []
     for key in probabilityDict:
         probability_vector.append(probabilityDict[key])
+    print(matrix)
+    print(probability_vector)
     afterPercolation = matrix.dot(probability_vector)
     print(afterPercolation)
     newDict = {}
