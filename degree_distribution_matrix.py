@@ -58,6 +58,9 @@ def calculate_extinction_probability(halfEdgeDict):
         polynomial[n-i-1] = halfEdgeDict[i]
     print(polynomial)
     roots = np.roots(polynomial)
+    for elem in roots:
+        if np.iscomplex(elem) or elem < 0:
+            roots.remove(elem)
     return roots
 
 
