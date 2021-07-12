@@ -51,6 +51,7 @@ def degree_to_edge_distribution(probabilityDict):
     return  halfEdgeDict
 
 def calculate_extinction_probability(halfEdgeDict):
+    print(halfEdgeDict)
     halfEdgeDict[1] = halfEdgeDict[1] - 1
     n = len(halfEdgeDict)
     polynomial = np.zeros(n)
@@ -62,7 +63,7 @@ def calculate_extinction_probability(halfEdgeDict):
         if np.isreal(roots[i]) and roots[i] >= 0:
             realroots.append(roots[i])
     prob = min(realroots)
-    return np.real(prob)
+    return prob
 
 def calculate_giant_component_size(extinction_prob, probabilityDict, n):
     result = 0
