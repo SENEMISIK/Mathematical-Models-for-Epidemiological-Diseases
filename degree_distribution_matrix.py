@@ -61,12 +61,15 @@ def calculate_extinction_probability(halfEdgeDict):
     for i in range(len(roots)):
         if np.isreal(roots[i]) and roots[i] >= 0:
             realroots.append(roots[i])
+    prob = min(realroots)
+    print("Extinction Probability" + str(np.real(prob)))
     return min(realroots)
 
 def calculate_giant_component_size(extinction_prob, probabilityDict, n):
     result = 0
     for key in probabilityDict:
         result += n * probabilityDict[key] * (1 - (extinction_prob ** key))
+    print("Component Size" + str(np.real(result)))
     return np.real(result)
 
 def degree_distribution_calculation1(numOfNodes, rho, beta, probabilityDict):
