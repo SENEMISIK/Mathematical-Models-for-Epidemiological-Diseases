@@ -123,7 +123,7 @@ def degree_distribution_calculation2(numOfNodes, rho, beta, probabilityDict):
     # print("Percolation: " + str(calculate_giant_component_size(normal_extinction, Dict1, numOfNodes)))
     # print("Correlated Percolation: " + str(calculate_giant_component_size(correlated_extinction, Dict2, numOfNodes)))
 
-    calculate_giant_component_size(normal_extinction, Dict1, numOfNodes), calculate_giant_component_size(correlated_extinction, Dict2, numOfNodes)
+    return calculate_giant_component_size(normal_extinction, Dict1, numOfNodes), calculate_giant_component_size(correlated_extinction, Dict2, numOfNodes)
     
 
     # def degree_distribution_calculation1(numOfNodes, rho, beta, probabilityDict):
