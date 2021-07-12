@@ -51,8 +51,10 @@ def calculate_extinction_probability(halfEdgeDict):
     halfEdgeDict[1] = halfEdgeDict[1] - 1
     n = len(halfEdgeDict)
     polynomial = np.zeros(n)
+
     for i in range(n):
         polynomial[n-i-1] = halfEdgeDict[i]
+    print(polynomial)
     roots = np.roots(polynomial)
     return roots
 
