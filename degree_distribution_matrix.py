@@ -52,7 +52,10 @@ def degree_to_edge_distribution(probabilityDict):
 
 def calculate_extinction_probability(halfEdgeDict):
     print(halfEdgeDict)
-    print(str(np.sum(halfEdgeDict)))
+    sum = 0
+    for elem in halfEdgeDict:
+        sum += halfEdgeDict[sum]
+    print(sum)
     halfEdgeDict[1] = halfEdgeDict[1] - 1
     n = len(halfEdgeDict)
     polynomial = np.zeros(n)
