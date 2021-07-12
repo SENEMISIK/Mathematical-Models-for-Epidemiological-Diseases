@@ -54,7 +54,7 @@ def calculate_extinction_probability(halfEdgeDict):
     print(halfEdgeDict)
     sum = 0
     for elem in halfEdgeDict:
-        sum += halfEdgeDict[sum]
+        sum += halfEdgeDict[elem]
     print(sum)
     halfEdgeDict[1] = halfEdgeDict[1] - 1
     n = len(halfEdgeDict)
