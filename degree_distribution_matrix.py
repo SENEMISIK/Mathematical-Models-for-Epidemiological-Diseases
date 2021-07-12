@@ -65,6 +65,11 @@ def calculate_extinction_probability(halfEdgeDict):
     return min(realroots)
 
 
-# def calculate_giant_component_size(extinction_prob)
+def calculate_giant_component_size(extinction_prob, probabilityDict, n):
+    result = 0
+    for key in probabilityDict:
+        result += n * probabilityDict[key] * (1 - extinction_prob**key)
+    return result
+
 
 
