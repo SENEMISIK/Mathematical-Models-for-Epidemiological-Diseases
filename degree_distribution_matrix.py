@@ -88,7 +88,9 @@ def degree_distribution_calculation1(numOfNodes, rho, beta, probabilityDict):
     for i in range(len(correlatedPercolation)):
         correlatedPercolationDict[i] = correlatedPercolation[i]
     normal_extinction = calculate_extinction_probability(degree_to_edge_distribution(normalPercolationDict))
+    print(normal_extinction)
     correlated_extinction = calculate_extinction_probability(degree_to_edge_distribution(correlatedPercolationDict))
+    print(correlated_extinction)
     print("Percolation: " + str(calculate_giant_component_size(normal_extinction, normalPercolationDict, numOfNodes)))
     print("Correlated Percolation: " + str(calculate_giant_component_size(correlated_extinction, correlatedPercolationDict, numOfNodes)))
 
