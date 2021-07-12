@@ -7,7 +7,7 @@ def generate_percolation_matrix(n, p, B):
     while (col <= n):
         row = 0
         while (row <= col):
-            matrix[row][col] = (B/(B+p))^row * (p/(B+p))^(col-row) * math.comb(col, row)
+            matrix[row][col] = (B/(B+p))**row * (p/(B+p))**(col-row) * math.comb(col, row)
             row += 1
         col += 1
     return matrix
@@ -30,7 +30,8 @@ def generate_correlated_percolation_matrix(n, p, B):
                 for i in range(col-row, col+1):
                     list.append(i * B + p)
                 result = np.prod(list)
-                matrix[row][col] = (math.comb(col, row) * math.factorial(row) * B^(row) * p) / result
+                matrix[row][col] = (math.comb(col, row) * math.factorial(row) * B**(row) * p) / result
+            row += 1
         col += 1
     return matrix
 
