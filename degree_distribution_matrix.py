@@ -58,10 +58,11 @@ def calculate_extinction_probability(halfEdgeDict):
         polynomial[n-i-1] = halfEdgeDict[i]
     print(polynomial)
     roots = np.roots(polynomial)
-    for elem in roots:
-        if np.iscomplex(elem) or elem < 0:
-            roots.remove(elem)
-    return roots
+    realroots = []
+    for i in range(len(roots)):
+        if np.isreal(roots[i]) and roots[i] >= 0:
+            realroots.append(roots[i])
+    return min(realroots)
 
 
 # def calculate_giant_component_size(extinction_prob)
