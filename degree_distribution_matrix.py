@@ -47,6 +47,7 @@ def degree_to_edge_distribution(probabilityDict):
             sum += halfEdgeDict[key - 1]
     for key in halfEdgeDict:
         halfEdgeDict[key] = halfEdgeDict[key] / sum
+    print(halfEdgeDict)
     return  halfEdgeDict
 
 def calculate_extinction_probability(halfEdgeDict):
