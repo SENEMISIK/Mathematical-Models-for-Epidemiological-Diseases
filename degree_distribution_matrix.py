@@ -128,44 +128,48 @@ def degree_distribution_calculation2(numOfNodes, rho, beta, probabilityDict):
             maxInDegree = key
 
     percolation_matrix = generate_percolation_matrix(maxInDegree-1, rho, beta)
-    print("Percolation matrix: " + str(percolation_matrix))
+    # print("Percolation matrix: " + str(percolation_matrix))
     sir_matrix = generate_correlated_percolation_matrix(maxInDegree-1, rho, beta)
-    print("Correlated matrix: " + str(sir_matrix))
+    # print("Correlated matrix: " + str(sir_matrix))
     
     second_degree_dict = degree_to_edge_distribution(probabilityDict)
 
     percolation_second_degree = apply_percolation(second_degree_dict, percolation_matrix)
-    print("2nd Degree (Normal): " + str(percolation_second_degree))
-    exp = 0
-    for key in percolation_second_degree:
-        exp += key * percolation_second_degree[key]
-    print(exp)
+    # print("2nd Degree (Normal): " + str(percolation_second_degree))
+    # exp = 0
+    # for key in percolation_second_degree:
+    #     exp += key * percolation_second_degree[key]
+    # print(exp)
 
     sir_second_degree = apply_percolation(second_degree_dict, sir_matrix)
-    print("2nd Degree (Correlated): " + str(sir_second_degree))
-    exp = 0
-    for key in sir_second_degree:
-        exp += key * sir_second_degree[key]
-    print(exp)
+    # print("2nd Degree (Correlated): " + str(sir_second_degree))
+    # exp = 0
+    # for key in sir_second_degree:
+    #     exp += key * sir_second_degree[key]
+    # print(exp)
     
     normal_extinction = calculate_extinction_probability(percolation_second_degree)
-    print("Normal Extinction: " + str(normal_extinction))
+    # print("Normal Extinction: " + str(normal_extinction))
     correlated_extinction = calculate_extinction_probability(sir_second_degree)
-    print("Correlated Extinction: " + str(correlated_extinction))
+    # print("Correlated Extinction: " + str(correlated_extinction))
 
-    Dict1 = apply_percolation(probabilityDict, generate_percolation_matrix(maxInDegree, rho, beta))
+    matrix1 = generate_percolation_matrix(maxInDegree, rho, beta)
+    print(matrix1)
+    Dict1 = apply_percolation(probabilityDict, matrix1)
     
-    Dict2 = apply_percolation(probabilityDict, generate_correlated_percolation_matrix(maxInDegree, rho, beta))
-    print(Dict1)
-    print(Dict2)
-    exp = 0
-    for key in Dict1:
-        exp += key * Dict1[key]
-    print(exp)
-    exp = 0
-    for key in Dict2:
-        exp += key * Dict2[key]
-    print(exp)
+    matrix2 = generate_correlated_percolation_matrix(maxInDegree, rho, beta)
+    Dict2 = apply_percolation(probabilityDict, matrix2)
+    print(matrix2)
+    # print(Dict1)
+    # print(Dict2)
+    # exp = 0
+    # for key in Dict1:
+    #     exp += key * Dict1[key]
+    # print(exp)
+    # exp = 0
+    # for key in Dict2:
+    #     exp += key * Dict2[key]
+    # print(exp)
 
     print("Percolation: " + str(calculate_giant_component_size(normal_extinction, Dict1, numOfNodes)))
     print("Correlated Percolation: " + str(calculate_giant_component_size(correlated_extinction, Dict2, numOfNodes)))
