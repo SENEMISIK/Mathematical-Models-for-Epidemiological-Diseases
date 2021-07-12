@@ -115,7 +115,7 @@ def apply_percolation(probabilityDict, matrix):
     probability_vector = []
     for key in probabilityDict:
         probability_vector.append(probabilityDict[key])
-    afterPercolation = np.dot(matrix, probability_vector)
+    afterPercolation = matrix.dot(probability_vector)
     print(afterPercolation)
     newDict = {}
     for i in range(len(afterPercolation)):
@@ -159,8 +159,9 @@ def degree_distribution_calculation2(numOfNodes, rho, beta, probabilityDict):
     Dict1 = apply_percolation(probabilityDict, matrix1)
     
     matrix2 = generate_correlated_percolation_matrix(maxInDegree, rho, beta)
-    Dict2 = apply_percolation(probabilityDict, matrix2)
     print(matrix2)
+    Dict2 = apply_percolation(probabilityDict, matrix2)
+    
     # print(Dict1)
     # print(Dict2)
     # exp = 0
