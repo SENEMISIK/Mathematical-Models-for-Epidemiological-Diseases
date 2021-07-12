@@ -48,9 +48,10 @@ def degree_to_edge_distribution(probabilityDict):
 
 def calculate_extinction_probability(halfEdgeDict):
     halfEdgeDict[1] = halfEdgeDict[1] - 1
-    polynomial = []
-    for key in halfEdgeDict:
-        polynomial.append(halfEdgeDict[key])
+    n = len(halfEdgeDict)
+    polynomial = np.zeros(n)
+    for i in range(n):
+        polynomial[n-i-1] = halfEdgeDict[i]
     roots = np.roots(polynomial)
     return roots
 
