@@ -158,6 +158,15 @@ def degree_distribution_calculation2(numOfNodes, rho, beta, probabilityDict):
     Dict2 = apply_percolation(probabilityDict, generate_correlated_percolation_matrix(maxInDegree, rho, beta))
     print(Dict1)
     print(Dict2)
+    exp = 0
+    for key in Dict1:
+        exp += key * Dict1[key]
+    print(exp)
+    exp = 0
+    for key in Dict2:
+        exp += key * Dict2[key]
+    print(exp)
+
     print("Percolation: " + str(calculate_giant_component_size(normal_extinction, Dict1, numOfNodes)))
     print("Correlated Percolation: " + str(calculate_giant_component_size(correlated_extinction, Dict2, numOfNodes)))
     
