@@ -21,16 +21,17 @@ def generate_correlated_percolation_matrix(n, p, B):
             if (row == 0):
                 matrix[row][col] = p/(p + col * B)
             elif (row == col):
-                list = []
+                list1 = []
                 for i in range(1, col+1):
-                    list.append(i * B + p)
-                matrix[row][col] = (math.factorial(row) * B**(row)) / result
+                    list1.append(i * B + p)
+                result1 = np.prod(list1)
+                matrix[row][col] = (math.factorial(row) * B**(row)) / result1
             else:
-                list = []
+                list2 = []
                 for i in range(col-row, col+1):
-                    list.append(i * B + p)
-                result = np.prod(list)
-                matrix[row][col] = (math.comb(col, row) * math.factorial(row) * B**(row) * p) / result
+                    list2.append(i * B + p)
+                result2 = np.prod(list2)
+                matrix[row][col] = (math.comb(col, row) * math.factorial(row) * B**(row) * p) / result2
             row += 1
         col += 1
     return matrix
