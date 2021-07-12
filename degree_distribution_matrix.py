@@ -62,14 +62,12 @@ def calculate_extinction_probability(halfEdgeDict):
         if np.isreal(roots[i]) and roots[i] >= 0:
             realroots.append(roots[i])
     prob = min(realroots)
-    print("Extinction Probability" + str(np.real(prob)))
-    return min(realroots)
+    return np.real(prob)
 
 def calculate_giant_component_size(extinction_prob, probabilityDict, n):
     result = 0
     for key in probabilityDict:
         result += n * probabilityDict[key] * (1 - (extinction_prob ** key))
-    print("Component Size" + str(np.real(result)))
     return np.real(result)
 
 def degree_distribution_calculation1(numOfNodes, rho, beta, probabilityDict):
@@ -93,10 +91,11 @@ def degree_distribution_calculation1(numOfNodes, rho, beta, probabilityDict):
     for i in range(len(correlatedPercolation)):
         correlatedPercolationDict[i] = correlatedPercolation[i]
     normal_extinction = calculate_extinction_probability(degree_to_edge_distribution(normalPercolationDict))
-    # print(normal_extinction)
-    correlated_extinction = calculate_extinction_probability(degree_to_edge_distribution(correlatedPercolationDict))
-    # print(correlated_extinction)
+    print("Probability: " + str(normal_extinction))
     print("Percolation: " + str(calculate_giant_component_size(normal_extinction, normalPercolationDict, numOfNodes)))
+
+    correlated_extinction = calculate_extinction_probability(degree_to_edge_distribution(correlatedPercolationDict))
+    print("Probability: " + str(correlated_extinction))
     print("Correlated Percolation: " + str(calculate_giant_component_size(correlated_extinction, correlatedPercolationDict, numOfNodes)))
 
 def apply_percolation(probabilityDict, matrix):
