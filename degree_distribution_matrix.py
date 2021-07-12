@@ -66,7 +66,10 @@ def calculate_extinction_probability(halfEdgeDict):
     for i in range(len(roots)):
         if np.isreal(roots[i]) and roots[i] >= 0:
             realroots.append(roots[i])
-    prob = min(realroots)
+    if (realroots == []):
+        prob = 1
+    else:    
+        prob = min(realroots)
     return prob
 
 def calculate_giant_component_size(extinction_prob, probabilityDict, n):
