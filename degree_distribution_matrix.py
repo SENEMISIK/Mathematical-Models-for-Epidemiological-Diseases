@@ -75,7 +75,9 @@ def degree_distribution_calculation1(numOfNodes, rho, beta, probabilityDict):
         if (key > maxInDegree):
             maxInDegree = key
     percolation_matrix = generate_percolation_matrix(maxInDegree, rho, beta)
+    print(percolation_matrix)
     correlated_percolation_matrix = generate_correlated_percolation_matrix(maxInDegree, rho, beta)
+    print(correlated_percolation_matrix)
     probability_vector = []
     for key in probabilityDict:
         probability_vector.append(probabilityDict[key])
