@@ -135,10 +135,18 @@ def degree_distribution_calculation2(numOfNodes, rho, beta, probabilityDict):
     second_degree_dict = degree_to_edge_distribution(probabilityDict)
 
     percolation_second_degree = apply_percolation(second_degree_dict, percolation_matrix)
-    print("2nd Degree (Normal)" + str(percolation_second_degree))
+    print("2nd Degree (Normal): " + str(percolation_second_degree))
+    exp = 0
+    for key in percolation_second_degree:
+        exp += key * percolation_second_degree[key]
+    print(exp)
 
     sir_second_degree = apply_percolation(second_degree_dict, sir_matrix)
-    print("2nd Degree (Correlated)" + str(sir_second_degree))
+    print("2nd Degree (Correlated): " + str(sir_second_degree))
+    exp = 0
+    for key in sir_second_degree:
+        exp += key * sir_second_degree[key]
+    print(exp)
     
     normal_extinction = calculate_extinction_probability(percolation_second_degree)
     print("Normal Extinction: " + str(normal_extinction))
