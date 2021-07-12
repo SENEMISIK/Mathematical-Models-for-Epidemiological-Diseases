@@ -54,7 +54,6 @@ def calculate_extinction_probability(halfEdgeDict):
     halfEdgeDict[1] = halfEdgeDict[1] - 1
     n = len(halfEdgeDict)
     polynomial = np.zeros(n)
-
     for i in range(n):
         polynomial[n-i-1] = halfEdgeDict[i]
     # print(polynomial)
@@ -84,11 +83,11 @@ def degree_distribution_calculation(numOfNodes, rho, beta, probabilityDict):
         probability_vector.append(probabilityDict[key])
     normalPercolation = np.dot(percolation_matrix, probability_vector)
     normalPercolationDict = {}
-    for i in range(len(normalPercolation)):
+    for i in range(1,len(normalPercolation)):
         normalPercolationDict[i] = normalPercolation[i]
     correlatedPercolation = np.dot(correlated_percolation_matrix, probability_vector)
     correlatedPercolationDict = {}
-    for i in range(len(correlatedPercolation)):
+    for i in range(1,len(correlatedPercolation)):
         correlatedPercolationDict[i] = correlatedPercolation[i]
     normal_extinction = calculate_extinction_probability(degree_to_edge_distribution(normalPercolationDict))
     correlated_extinction = calculate_extinction_probability(degree_to_edge_distribution(correlatedPercolationDict))
