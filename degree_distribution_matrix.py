@@ -117,12 +117,11 @@ def apply_percolation(probabilityDict, matrix):
         probability_vector.append(probabilityDict[key])
     print(matrix)
     print(probability_vector)
-    afterPercolation = matrix*probability_vector
+    afterPercolation = np.dot(matrix, probability_vector)
     print(afterPercolation)
     newDict = {}
     for i in range(len(afterPercolation)):
         newDict[i] = afterPercolation[i]
-    print(newDict)
     return newDict
 
 def degree_distribution_calculation2(numOfNodes, rho, beta, probabilityDict):
