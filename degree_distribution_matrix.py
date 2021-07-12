@@ -69,7 +69,7 @@ def calculate_giant_component_size(extinction_prob, probabilityDict, n):
     result = 0
     for key in probabilityDict:
         result += n * probabilityDict[key] * (1 - (extinction_prob ** key))
-    return result
+    return np.real(result)
 
 
 
