@@ -135,14 +135,10 @@ def degree_distribution_calculation2(numOfNodes, rho, beta, probabilityDict):
     sir_second_degree = apply_percolation(second_degree_dict, sir_matrix)
     
     normal_extinction = calculate_extinction_probability(percolation_second_degree)
-    correlated_extinction = calculate_extinction_probability(degree_to_edge_distribution(sir_second_degree))
+    print("Normal Extinction: " + str(normal_extinction))
+    correlated_extinction = calculate_extinction_probability(sir_second_degree)
+    print("Normal Extinction: " + str(correlated_extinction))
 
-    percolation_matrix = generate_percolation_matrix(maxInDegree, rho, beta)
-    sir_matrix = generate_correlated_percolation_matrix(maxInDegree, rho, beta)
-
-    PercolationDict = apply_percolation(probabilityDict, percolation_matrix)
-    SIRDict = apply_percolation(probabilityDict, sir_matrix)
-
-    print("Percolation: " + str(calculate_giant_component_size(normal_extinction, PercolationDict, numOfNodes)))
-    print("Correlated Percolation: " + str(calculate_giant_component_size(correlated_extinction, SIRDict, numOfNodes)))
+    print("Percolation: " + str(calculate_giant_component_size(normal_extinction, probabilityDict, numOfNodes)))
+    print("Correlated Percolation: " + str(calculate_giant_component_size(correlated_extinction, probabilityDict, numOfNodes)))
     
