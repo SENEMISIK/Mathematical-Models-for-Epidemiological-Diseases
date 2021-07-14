@@ -33,17 +33,8 @@ def find_entire_connection(infected_nodes, neighbors_per_node):
     find_connected_nodes(node, neighbors_per_node, connected_nodes)
   return connected_nodes
 
-def calculateFinalInfection(numOfInfectedNodes, numOfNodes, numOfEdges, numOfTrials, transmissionRate, recoveryRate):
-  num_infected = []
-  for _ in range(numOfTrials):
-    graph = graphs.erdos_renyi_graph(numOfNodes, numOfEdges)
-    neighbors_per_node = tuples_to_dict(graph, numOfNodes)
-    graph = percolation(graph, neighbors_per_node, transmissionRate, recoveryRate)
-    infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfNodes)], numOfInfectedNodes), graph, neighbors_per_node)
-    num_infected.append(len(infected_nodes))
-  return np.mean(num_infected)
 
-def recovery_rates(graph, initial_recovery_rate, budget):
+def recovery_rates(graph, initial_recovery_rate, budget, numOfNodes):
     degDict = {}
     sum = len(graph)
     for edge in graph:
@@ -51,9 +42,25 @@ def recovery_rates(graph, initial_recovery_rate, budget):
             degDict[edge[0]] = 0
         degDict[edge[0]] += 1
     recoveryRates = {}
-    for node in degDict:
-        recoveryRates[node] = initial_recovery_rate + (degDict[node]/sum)*budget
+    for node in range(numOfNodes):
+        if node in degDict:
+          recoveryRates[node] = initial_recovery_rate + (degDict[node]/sum)*budget
+        else: 
+          recoveryRates[node] = initial_recovery_rate
     return recoveryRates 
+
+def calculateFinalInfection(numOfInfectedNodes, numOfNodes, numOfEdges, numOfTrials, transmissionRate, initial_recovery_rate, budget):
+  num_infected = []
+  for _ in range(numOfTrials):
+    graph = graphs.erdos_renyi_graph(numOfNodes, numOfEdges)
+    neighbors_per_node = tuples_to_dict(graph, numOfNodes)
+    recoveryRates = recovery_rates(graph, initial_recovery_rate, budget, numOfNodes)
+    graph = percolation(graph, neighbors_per_node, transmissionRate, recoveryRates)
+    infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfNodes)], numOfInfectedNodes), graph, neighbors_per_node)
+    num_infected.append(len(infected_nodes))
+  return np.mean(num_infected)
+
+
     
         
     
