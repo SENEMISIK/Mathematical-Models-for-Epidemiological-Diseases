@@ -56,8 +56,10 @@ def calculateFinalInfection(numOfInfectedNodes, numOfNodes, numOfEdges, numOfTri
     neighbors_per_node = tuples_to_dict(graph, numOfNodes)
     recoveryRates = recovery_rates(graph, initial_recovery_rate, budget, numOfNodes)
     graph = percolation(graph, neighbors_per_node, transmissionRate, recoveryRates)
-    infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfNodes)], numOfInfectedNodes), graph, neighbors_per_node)
+    neighbors_per_node = tuples_to_dict(graph, numOfNodes)
+    infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfNodes)], numOfInfectedNodes), neighbors_per_node)
     num_infected.append(len(infected_nodes))
+    print(infected_nodes)
   return np.mean(num_infected)
 
 
