@@ -41,6 +41,6 @@ def calculateFinalInfection(numOfInfectedNodes, numOfNodes, numOfEdges, numOfTri
     graph = graphs.erdos_renyi_graph(numOfNodes, numOfEdges)
     neighbors_per_node = tuples_to_dict(graph, numOfNodes)
     graph = percolation(graph, neighbors_per_node, transmissionRate, recoveryRate)
-    infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfNodes)], numOfInfectedNodes), graph, neighbors_per_node)
+    infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfNodes)], numOfInfectedNodes), neighbors_per_node)
     num_infected.append(len(infected_nodes))
   return np.mean(num_infected)
