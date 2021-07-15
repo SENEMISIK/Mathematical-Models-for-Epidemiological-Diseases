@@ -79,7 +79,7 @@ def calculateFinalInfectionPrefAttach(numOfInfectedNodes, graph, curr_nodes, n, 
   num_infected = []
   for _ in range(numOfTrials):
     graph = graphs.pref_attachment(graph, curr_nodes, n, i)
-    graph = percolation(graph, transmissionRate, recoveryRate)
+    graph = percolation1(graph, transmissionRate, recoveryRate)
     infected_nodes = find_entire_connection(random.sample([i for i in range(0, i+2)], numOfInfectedNodes), graph, i+2)
     num_infected.append(len(infected_nodes))
   return np.mean(num_infected)
