@@ -10,7 +10,7 @@ def tuples_to_dict(graph, N):
     graph_dict[edge[0]].append(edge[1])
   return graph_dict
 
-def percolation(graph, neighbors_per_node, transmissionRate, recoveryRates):
+def percolation(neighbors_per_node, transmissionRate, recoveryRates):
     graph = []
     for node in neighbors_per_node:
         recoveryTime = np.random.exponential(1/recoveryRates[node])
@@ -55,7 +55,7 @@ def calculateFinalInfection(numOfInfectedNodes, numOfNodes, numOfEdges, numOfTri
     graph = graphs.erdos_renyi_graph(numOfNodes, numOfEdges)
     neighbors_per_node = tuples_to_dict(graph, numOfNodes)
     recoveryRates = recovery_rates(graph, initial_recovery_rate, budget, numOfNodes)
-    graph = percolation(graph, neighbors_per_node, transmissionRate, recoveryRates)
+    graph = percolation(neighbors_per_node, transmissionRate, recoveryRates)
     neighbors_per_node = tuples_to_dict(graph, numOfNodes)
     infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfNodes)], numOfInfectedNodes), neighbors_per_node)
     num_infected.append(len(infected_nodes))
