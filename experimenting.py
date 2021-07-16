@@ -25,13 +25,13 @@ def config_model2(deg_dist, n):
   while half_edges != []:
     node1 = np.random.choice(half_edges)
     node2 = np.random.choice(half_edges)
-
-    if ([node1, node2] not in graph):
-      graph.append([node1, node2])
+    # if ([node1, node2] not in graph):
+    graph.append([node1, node2])
+    if (node1 != node2):
       graph.append([node2, node1])
-      half_edges.remove(node1)
-      if (node1 != node2):
-        half_edges.remove(node2)
+    half_edges.remove(node1)
+    if (node1 != node2):
+      half_edges.remove(node2)
   return graph
 
 def tuples_to_dict(graph, N):
