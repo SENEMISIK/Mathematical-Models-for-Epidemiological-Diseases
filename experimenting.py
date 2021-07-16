@@ -26,7 +26,7 @@ def config_model2(deg_dist, n):
     node1 = np.random.choice(half_edges)
     node2 = np.random.choice(half_edges)
 
-    if (node1 != node2 and [node1, node2] not in graph):
+    if ([node1, node2] not in graph):
       graph.append([node1, node2])
       graph.append([node2, node1])
       half_edges.remove(node1)
