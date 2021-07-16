@@ -108,7 +108,7 @@ def strategy2(initial_recovery_rate, N, budget):
         recoveryRates[3*i] = initial_recovery_rate
         recoveryRates[3*i + 1] = initial_recovery_rate
         recoveryRates[3*i + 2] = initial_recovery_rate
-        list = np,random.choice([0, 1, 2], 2)
+        list = np.random.choice([0, 1, 2], 2)
         for num in list:
             recoveryRates[3*i + num] += recoveryRate
     return recoveryRates
@@ -120,7 +120,7 @@ def strategy3(initial_recovery_rate, N, budget):
         recoveryRates[3*i] = initial_recovery_rate
         recoveryRates[3*i + 1] = initial_recovery_rate
         recoveryRates[3*i + 2] = initial_recovery_rate
-        list = np,random.choice([0, 1, 2], 1)
+        list = np.random.choice([0, 1, 2], 1)
         for num in list:
             recoveryRates[3*i + num] += recoveryRate
     return recoveryRates
@@ -150,7 +150,7 @@ def strategyFraction2(fraction, initial_recovery_rate, N, budget):
     recoveryRates[3*i + 1] = initial_recovery_rate
     recoveryRates[3*i + 2] = initial_recovery_rate
     if (i in triangles):
-      list = np,random.choice([0, 1, 2], 2)
+      list = np.random.choice([0, 1, 2], 2)
       for num in list:
           recoveryRates[3*i + num] += recoveryRate
   return recoveryRates
@@ -165,7 +165,7 @@ def strategyFraction3(fraction, initial_recovery_rate, N, budget):
     recoveryRates[3*i + 1] = initial_recovery_rate
     recoveryRates[3*i + 2] = initial_recovery_rate
     if (i in triangles):
-      list = np,random.choice([0, 1, 2], 1)
+      list = np.random.choice([0, 1, 2], 1)
       for num in list:
           recoveryRates[3*i + num] += recoveryRate
   return recoveryRates
