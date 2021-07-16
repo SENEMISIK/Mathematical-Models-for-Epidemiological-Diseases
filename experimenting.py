@@ -87,7 +87,8 @@ def triangle(N):
       triangleGraph.append([triangles[node][0], triangles[neighbor][0]])
       triangleGraph.append([triangles[neighbor][0], triangles[node][0]])
       del triangles[node][0]
-      del triangles[neighbor][0]
+      if (node != neighbor):
+        del triangles[neighbor][0]
       dictionary[neighbor].remove(node)
   return triangleGraph  
 
