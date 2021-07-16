@@ -105,19 +105,30 @@ def strategy2(initial_recovery_rate, N, budget):
     recoveryRates = {}
     recoveryRate = round(budget/(2*N))
     for i in range(N):
+        recoveryRates[3*i] = initial_recovery_rate
+        recoveryRates[3*i + 1] = initial_recovery_rate
+        recoveryRates[3*i + 2] = initial_recovery_rate
         list = np,random.choice([0, 1, 2], 2)
         for num in list:
-            recoveryRates[3*i + num] = initial_recovery_rate + recoveryRate
+            recoveryRates[3*i + num] += recoveryRate
     return recoveryRates
 
 def strategy3(initial_recovery_rate, N, budget):
     recoveryRates = {}
     recoveryRate = round(budget/N)
     for i in range(N):
+        recoveryRates[3*i] = initial_recovery_rate
+        recoveryRates[3*i + 1] = initial_recovery_rate
+        recoveryRates[3*i + 2] = initial_recovery_rate
         list = np,random.choice([0, 1, 2], 1)
         for num in list:
-            recoveryRates[3*i + num] = initial_recovery_rate + recoveryRate
+            recoveryRates[3*i + num] += recoveryRate
     return recoveryRates
+
+# def strategyFraction(fraction, N, initial_recovery_rate, budget):
+#   number = round(fraction * N)
+#   traingles = np.random.choice(np.arange(N), number)
+  
 
 def percolation(neighbors_per_node, transmissionRate, recoveryRates):
     graph = []
