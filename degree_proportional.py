@@ -50,11 +50,12 @@ def recovery_rates(graph, initial_recovery_rate, budget):
         if edge[0] not in degDict:
             degDict[edge[0]] = 0
         degDict[edge[0]] += 1
-    recoveryRates = {}
+    recoveryRates = {} 
     for node in degDict:
-        recoveryRates[node] = initial_recovery_rate + (degDict[node]/sum)*budget
+        recoveryRates[node] = initial_recovery_rate + budget/len(degDict)#(degDict[node]/sum)*budget
     return recoveryRates 
     
+
         
     
         
