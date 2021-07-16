@@ -30,7 +30,8 @@ def config_model2(deg_dist, n):
       graph.append([node1, node2])
       graph.append([node2, node1])
       half_edges.remove(node1)
-      half_edges.remove(node2)
+      if (node1 != node2):
+        half_edges.remove(node2)
   return graph
 
 def tuples_to_dict(graph, N):
