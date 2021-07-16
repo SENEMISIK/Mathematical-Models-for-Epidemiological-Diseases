@@ -125,10 +125,50 @@ def strategy3(initial_recovery_rate, N, budget):
             recoveryRates[3*i + num] += recoveryRate
     return recoveryRates
 
-# def strategyFraction(fraction, N, initial_recovery_rate, budget):
-#   number = round(fraction * N)
-#   traingles = np.random.choice(np.arange(N), number)
-  
+def strategyFraction1(fraction, initial_recovery_rate, N, budget):
+  recoveryRates = {}
+  number = round(fraction * N)
+  triangles = np.random.choice(np.arange(N), number)
+  recoveryRate = round(budget/(3*number))
+  for i in range(N):
+    recoveryRates[3*i] = initial_recovery_rate
+    recoveryRates[3*i + 1] = initial_recovery_rate
+    recoveryRates[3*i + 2] = initial_recovery_rate
+    if (i in triangles):
+      recoveryRates[3*i] += recoveryRate
+      recoveryRates[3*i + 1] += recoveryRate
+      recoveryRates[3*i + 2] += recoveryRate
+  return recoveryRates
+
+def strategyFraction2(fraction, initial_recovery_rate, N, budget):
+  recoveryRates = {}
+  number = round(fraction * N)
+  triangles = np.random.choice(np.arange(N), number)
+  recoveryRate = round(budget/(2*number))
+  for i in range(N):
+    recoveryRates[3*i] = initial_recovery_rate
+    recoveryRates[3*i + 1] = initial_recovery_rate
+    recoveryRates[3*i + 2] = initial_recovery_rate
+    if (i in triangles):
+      list = np,random.choice([0, 1, 2], 2)
+      for num in list:
+          recoveryRates[3*i + num] += recoveryRate
+  return recoveryRates
+
+def strategyFraction3(fraction, initial_recovery_rate, N, budget):
+  recoveryRates = {}
+  number = round(fraction * N)
+  triangles = np.random.choice(np.arange(N), number)
+  recoveryRate = round(budget/(number))
+  for i in range(N):
+    recoveryRates[3*i] = initial_recovery_rate
+    recoveryRates[3*i + 1] = initial_recovery_rate
+    recoveryRates[3*i + 2] = initial_recovery_rate
+    if (i in triangles):
+      list = np,random.choice([0, 1, 2], 1)
+      for num in list:
+          recoveryRates[3*i + num] += recoveryRate
+  return recoveryRates
 
 def percolation(neighbors_per_node, transmissionRate, recoveryRates):
     graph = []
@@ -183,6 +223,42 @@ def calculateFinalInfection3(numOfInfectedNodes, numOfTriangles, numOfTrials, tr
         graph = triangle(numOfTriangles)
         neighbors_per_node = tuples_to_dict(graph, 3*numOfTriangles)
         recoveryRates = strategy3(initial_recovery_rate, numOfTriangles, budget)
+        graph = percolation(neighbors_per_node, transmissionRate, recoveryRates)
+        neighbors_per_node = tuples_to_dict(graph, 3*numOfTriangles)
+        infected_nodes = find_entire_connection(random.sample([i for i in range(0, 3*numOfTriangles)], numOfInfectedNodes), neighbors_per_node)
+        num_infected.append(len(infected_nodes))
+    return np.mean(num_infected)
+
+def calculateFinalInfection4(fraction, numOfInfectedNodes, numOfTriangles, numOfTrials, transmissionRate, initial_recovery_rate, budget):
+  num_infected = []
+  for _ in range(numOfTrials):
+    graph = triangle(numOfTriangles)
+    neighbors_per_node = tuples_to_dict(graph, 3*numOfTriangles)
+    recoveryRates = strategyFraction1(fraction, initial_recovery_rate, numOfTriangles, budget)
+    graph = percolation(neighbors_per_node, transmissionRate, recoveryRates)
+    neighbors_per_node = tuples_to_dict(graph, 3*numOfTriangles)
+    infected_nodes = find_entire_connection(random.sample([i for i in range(0, 3*numOfTriangles)], numOfInfectedNodes), neighbors_per_node)
+    num_infected.append(len(infected_nodes))
+  return np.mean(num_infected)
+
+def calculateFinalInfection5(fraction, numOfInfectedNodes, numOfTriangles, numOfTrials, transmissionRate, initial_recovery_rate, budget):
+    num_infected = []
+    for _ in range(numOfTrials):
+        graph = triangle(numOfTriangles)
+        neighbors_per_node = tuples_to_dict(graph, 3*numOfTriangles)
+        recoveryRates = strategyFraction2(fraction, initial_recovery_rate, numOfTriangles, budget)
+        graph = percolation(neighbors_per_node, transmissionRate, recoveryRates)
+        neighbors_per_node = tuples_to_dict(graph, 3*numOfTriangles)
+        infected_nodes = find_entire_connection(random.sample([i for i in range(0, 3*numOfTriangles)], numOfInfectedNodes), neighbors_per_node)
+        num_infected.append(len(infected_nodes))
+    return np.mean(num_infected)
+
+def calculateFinalInfection6(fraction, numOfInfectedNodes, numOfTriangles, numOfTrials, transmissionRate, initial_recovery_rate, budget):
+    num_infected = []
+    for _ in range(numOfTrials):
+        graph = triangle(numOfTriangles)
+        neighbors_per_node = tuples_to_dict(graph, 3*numOfTriangles)
+        recoveryRates = strategyFraction3(fraction, initial_recovery_rate, numOfTriangles, budget)
         graph = percolation(neighbors_per_node, transmissionRate, recoveryRates)
         neighbors_per_node = tuples_to_dict(graph, 3*numOfTriangles)
         infected_nodes = find_entire_connection(random.sample([i for i in range(0, 3*numOfTriangles)], numOfInfectedNodes), neighbors_per_node)
