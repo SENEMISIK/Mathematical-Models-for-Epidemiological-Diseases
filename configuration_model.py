@@ -86,15 +86,11 @@ def findComponentSizes(graph, n):
   node_list = [i for i in range(n)]
   component_sizes = []
   while node_list != []:
-    #print (node_list)
     node = np.random.choice(node_list)
     connected_nodes = []
     find_connected_nodes(node, graph_dict, connected_nodes)
-    #print (connected_nodes)
     for i in connected_nodes:
-      #print (i)
       node_list.remove(i)
 
     component_sizes.append(len(connected_nodes))
-    # print(node_list)
   return component_sizes
