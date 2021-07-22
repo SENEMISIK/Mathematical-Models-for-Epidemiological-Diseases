@@ -12,10 +12,10 @@ def tuples_to_dict(graph, N):
     graph_dict[edge[0]].append(edge[1])
   return graph_dict
 
-def percolation(neighbors_per_node, transmissionRate, recoveryRate):
+def percolation(neighbors_per_node, transmissionRate, recoveryRates):
     newGraph = []
     for node in neighbors_per_node:
-        recoveryTime = np.random.exponential(1/recoveryRate)
+        recoveryTime = np.random.exponential(1/recoveryRate[node])
         for neighbor in neighbors_per_node[node]:
             transmissionTime = np.random.exponential(1/transmissionRate)
             if (transmissionTime <= recoveryTime):
