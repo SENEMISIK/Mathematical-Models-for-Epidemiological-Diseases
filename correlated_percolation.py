@@ -15,7 +15,7 @@ def tuples_to_dict(graph, N):
 def percolation(neighbors_per_node, transmissionRate, recoveryRates):
     newGraph = []
     for node in neighbors_per_node:
-        recoveryTime = np.random.exponential(1/recoveryRate[node])
+        recoveryTime = np.random.exponential(1/recoveryRates[node])
         for neighbor in neighbors_per_node[node]:
             transmissionTime = np.random.exponential(1/transmissionRate)
             if (transmissionTime <= recoveryTime):
