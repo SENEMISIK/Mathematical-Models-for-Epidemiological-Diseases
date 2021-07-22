@@ -177,7 +177,7 @@ def percolation(neighbors_per_node, transmissionRate, recoveryRates):
         for neighbor in neighbors_per_node[node]:
             transmissionTime = np.random.exponential(1/transmissionRate)
             if (transmissionTime <= recoveryTime):
-                graph.append([node, neighbor])
+              graph.append([node, neighbor])
     return graph              
 
 def find_connected_nodes(node, graph_dict, connected_component):
