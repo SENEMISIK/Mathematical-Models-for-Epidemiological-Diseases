@@ -229,16 +229,40 @@ def calculateFinalInfection3(numOfInfectedNodes, numOfTriangles, numOfTrials, tr
         num_infected.append(len(infected_nodes))
     return np.mean(num_infected)
 
+def findComponentSizes(graph_dict, n):
+  node_list = [i for i in range(n)]
+  component_sizes = []
+  while node_list != []:
+    node = np.random.choice(node_list)
+    connected_nodes = []
+    find_connected_nodes(node, graph_dict, connected_nodes)
+    # print (graph_dict)
+    # print (connected_nodes)
+    for i in connected_nodes:
+      if i in node_list:
+        node_list.remove(i)
+    # print ("node list: " + str(node_list))
+    component_sizes.append(len(connected_nodes))
+  return component_sizes
+
 def calculateFinalInfection4(fraction, numOfInfectedNodes, numOfTriangles, numOfTrials, transmissionRate, initial_recovery_rate, budget):
   num_infected = []
+  sizes = []
   for _ in range(numOfTrials):
     graph = triangle(numOfTriangles)
     neighbors_per_node = tuples_to_dict(graph, 3*numOfTriangles)
     recoveryRates = strategyFraction1(fraction, initial_recovery_rate, numOfTriangles, budget)
     graph = percolation(neighbors_per_node, transmissionRate, recoveryRates)
     neighbors_per_node = tuples_to_dict(graph, 3*numOfTriangles)
+    comp_sizes = findComponentSizes(neighbors_per_node, 3*numOfTriangles)
+    comp_sizes.sort()
+    if len(comp_sizes) >= 2:
+      sizes.append(comp_sizes[-2])
+    else:
+      sizes.append(0)
     infected_nodes = find_entire_connection(random.sample([i for i in range(0, 3*numOfTriangles)], numOfInfectedNodes), neighbors_per_node)
     num_infected.append(len(infected_nodes))
+  print (np.mean(sizes))
   return np.mean(num_infected)
 
 def calculateFinalInfection5(fraction, numOfInfectedNodes, numOfTriangles, numOfTrials, transmissionRate, initial_recovery_rate, budget):
