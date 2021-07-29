@@ -236,12 +236,9 @@ def findComponentSizes(graph_dict, n):
     node = np.random.choice(node_list)
     connected_nodes = []
     find_connected_nodes(node, graph_dict, connected_nodes)
-    # print (graph_dict)
-    # print (connected_nodes)
     for i in connected_nodes:
       if i in node_list:
         node_list.remove(i)
-    # print ("node list: " + str(node_list))
     component_sizes.append(len(connected_nodes))
   return component_sizes
 
