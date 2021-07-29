@@ -155,6 +155,8 @@ def calculateFinalInfection(numOfInfectedNodes, numOfTriangles, numOfTrials, tra
 
   return np.mean(num_infected1), np.mean(num_infected2)
 
+# FRACTION
+
 
 
  
