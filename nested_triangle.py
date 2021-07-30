@@ -314,7 +314,7 @@ def calculateSCC(fraction, numOfTriangles, numOfTrials, transmissionRate, initia
     graph = triangle(numOfTriangles)
     neighbors_per_node = tuples_to_dict(graph, numOfTriangles*3)
     recovery_rates = strategyFraction(fraction, initialRecoveryRate, numOfTriangles, budget1)
-    firstGraph, node_rec_times, edge_transmit_times = percolation(neighbors_per_node, transmissionRate, initialRecoveryRate, recovery_rates)
+    firstGraph, node_rec_times, edge_transmit_times = percolation(neighbors_per_node, transmissionRate, recovery_rates)
     # new_neighbors_per_node = tuples_to_dict(firstGraph, numOfTriangles*3)
     # infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node)
     # num_infected1.append(len(infected_nodes))
