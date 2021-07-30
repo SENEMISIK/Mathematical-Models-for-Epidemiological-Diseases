@@ -107,7 +107,7 @@ def percolation(neighbors_per_node, transmissionRate, recovery_rates):
             transmissionTime = np.random.exponential(1/transmissionRate)
             if (transmissionTime <= recoveryTime):
                 newGraph.append([node, neighbor])
-                edge_transmit_times[[node, neighbor]] = transmissionTime
+                edge_transmit_times[(node, neighbor)] = transmissionTime
                 if node not in node_rec_times:
                     node_rec_times[node] = recoveryTime
                 
@@ -118,7 +118,7 @@ def percolation2(neighbors_per_node, recoveryRate, node_rec_times, edge_transmit
     for node in neighbors_per_node:
         recoveryTime = min(node_rec_times[node], np.random.exponential(1/recoveryRate))
         for neighbor in neighbors_per_node[node]:
-            transmissionTime = edge_transmit_times([node,neighbor])
+            transmissionTime = edge_transmit_times[(node, neighbor)]
             if (transmissionTime <= recoveryTime):
                 newGraph.append([node, neighbor])
     return newGraph, node_rec_times, edge_transmit_times 
