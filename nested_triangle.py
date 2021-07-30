@@ -1,5 +1,4 @@
 import numpy as np
-import graphs
 import random
 
 # TRIANGLE INSIDE THE CONFIGURATION MODEL
@@ -114,7 +113,7 @@ def percolation(neighbors_per_node, transmissionRate, recovery_rates):
                 
     return newGraph   
 
-def percolation2(neighbors_per_node, transmissionRate, recoveryRate, node_rec_times, edge_transmit_times):
+def percolation2(neighbors_per_node, recoveryRate, node_rec_times, edge_transmit_times):
     newGraph = []
     for node in neighbors_per_node:
         recoveryTime = min(node_rec_times[node], np.random.exponential(1/recoveryRate))
@@ -131,31 +130,63 @@ def find_connected_nodes(node, graph_dict, connected_component):
     if neighbor not in connected_component:
       find_connected_nodes(neighbor, graph_dict, connected_component)
 
-def find_entire_connection(infected_nodes, neighbors_per_node):
-  connected_nodes = []
-  for node in infected_nodes:
-    find_connected_nodes(node, neighbors_per_node, connected_nodes)
-  return connected_nodes
+# def find_entire_connection(infected_nodes, neighbors_per_node):
+#   connected_nodes = []
+#   for node in infected_nodes:
+#     find_connected_nodes(node, neighbors_per_node, connected_nodes)
+#   return connected_nodes
 
-def calculateFinalInfection(numOfInfectedNodes, numOfTriangles, numOfTrials, transmissionRate, budget1, budget2):
-  num_infected1 = []
-  num_infected2 = []
-  recoveryRate1 = budget1 / (numOfTriangles*3)
-  recoveryRate2 = budget2 / (numOfTriangles*3)
-  for _ in range(numOfTrials):
-    graph = triangle(numOfTriangles)
-    neighbors_per_node = tuples_to_dict(graph, numOfTriangles*3)
-    firstGraph, node_rec_times, edge_transmit_times = percolation(neighbors_per_node, transmissionRate, recoveryRate1)
-    new_neighbors_per_node = tuples_to_dict(firstGraph, numOfTriangles*3)
-    infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node)
-    num_infected1.append(len(infected_nodes))
+# def calculateFinalInfection(numOfInfectedNodes, numOfTriangles, numOfTrials, transmissionRate, budget1, budget2):
+#   num_infected1 = []
+#   num_infected2 = []
+#   recoveryRate1 = budget1 / (numOfTriangles*3)
+#   recoveryRate2 = budget2 / (numOfTriangles*3)
+#   for _ in range(numOfTrials):
+#     graph = triangle(numOfTriangles)
+#     neighbors_per_node = tuples_to_dict(graph, numOfTriangles*3)
+#     firstGraph, node_rec_times, edge_transmit_times = percolation(neighbors_per_node, transmissionRate, recoveryRate1)
+#     new_neighbors_per_node = tuples_to_dict(firstGraph, numOfTriangles*3)
+#     infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node)
+#     num_infected1.append(len(infected_nodes))
 
-    secondGraph = percolation2(neighbors_per_node, transmissionRate, recoveryRate2-recoveryRate1, node_rec_times, edge_transmit_times)
-    new_neighbors_per_node2 = tuples_to_dict(secondGraph, numOfTriangles*3)
-    infected_nodes2 = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node2)
-    num_infected2.append(len(infected_nodes2))
+#     secondGraph = percolation2(neighbors_per_node, transmissionRate, recoveryRate2-recoveryRate1, node_rec_times, edge_transmit_times)
+#     new_neighbors_per_node2 = tuples_to_dict(secondGraph, numOfTriangles*3)
+#     infected_nodes2 = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node2)
+#     num_infected2.append(len(infected_nodes2))
 
-  return np.mean(num_infected1), np.mean(num_infected2)
+#   return np.mean(num_infected1), np.mean(num_infected2)
+
+# FRACTION
+
+def strategyFraction(fraction, initial_recovery_rate, N, budget):
+  recoveryRates = {}
+  number = round(fraction * N)
+  triangles = np.random.choice(np.arange(N), number)
+  recoveryRate = round(budget/(3*number))
+  for i in range(N):
+    recoveryRates[3*i] = initial_recovery_rate
+    recoveryRates[3*i + 1] = initial_recovery_rate
+    recoveryRates[3*i + 2] = initial_recovery_rate
+    if (i in triangles):
+      recoveryRates[3*i] += recoveryRate
+      recoveryRates[3*i + 1] += recoveryRate
+      recoveryRates[3*i + 2] += recoveryRate
+  return recoveryRates
+
+def percolation1(neighbors_per_node, transmissionRate, recoveryRate):
+  newGraph = []
+  node_rec_times = {}
+  edge_transmit_times = {}
+  for node in neighbors_per_node:
+      recoveryTime = np.random.exponential(1/recoveryRate)
+      for neighbor in neighbors_per_node[node]:
+          transmissionTime = np.random.exponential(1/transmissionRate)
+          if (transmissionTime <= recoveryTime):
+              newGraph.append([node, neighbor])
+              edge_transmit_times[[node, neighbor]] = transmissionTime
+              if node not in node_rec_times:
+                  node_rec_times[node] = recoveryTime
+  return newGraph, node_rec_times, edge_transmit_times
 
 # STRONGLY CONNECTED COMPONENT
 
@@ -267,41 +298,10 @@ def generate_bowtie(graph, N):
   
   return scc_in, max_scc, scc_out
 
-
-# FRACTION
-
-def strategyFraction(fraction, initial_recovery_rate, N, budget):
-  recoveryRates = {}
-  number = round(fraction * N)
-  triangles = np.random.choice(np.arange(N), number)
-  recoveryRate = round(budget/(3*number))
-  for i in range(N):
-    recoveryRates[3*i] = initial_recovery_rate
-    recoveryRates[3*i + 1] = initial_recovery_rate
-    recoveryRates[3*i + 2] = initial_recovery_rate
-    if (i in triangles):
-      recoveryRates[3*i] += recoveryRate
-      recoveryRates[3*i + 1] += recoveryRate
-      recoveryRates[3*i + 2] += recoveryRate
-  return recoveryRates
-
-def percolation1(neighbors_per_node, transmissionRate, recoveryRate):
-  newGraph = []
-  node_rec_times = {}
-  edge_transmit_times = {}
-  for node in neighbors_per_node:
-      recoveryTime = np.random.exponential(1/recoveryRate)
-      for neighbor in neighbors_per_node[node]:
-          transmissionTime = np.random.exponential(1/transmissionRate)
-          if (transmissionTime <= recoveryTime):
-              newGraph.append([node, neighbor])
-              edge_transmit_times[[node, neighbor]] = transmissionTime
-              if node not in node_rec_times:
-                  node_rec_times[node] = recoveryTime
-  return newGraph, node_rec_times, edge_transmit_times
+# CALCULATE SCCs!!!
 
 # numOfInfectedNodes 
-def calculateFinalInfection(fraction, numOfTriangles, numOfTrials, transmissionRate, initialRecoveryRate, budget1, budget2):
+def calculateSCC(fraction, numOfTriangles, numOfTrials, transmissionRate, initialRecoveryRate, budget1, budget2):
   # num_infected1 = []
   # num_infected2 = []
   scc_in_budget1 = [] 
