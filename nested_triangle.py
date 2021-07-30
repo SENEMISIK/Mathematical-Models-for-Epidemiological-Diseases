@@ -103,20 +103,19 @@ def percolation(neighbors_per_node, transmissionRate, recovery_rates):
     edge_transmit_times = {}
     for node in neighbors_per_node:
         recoveryTime = np.random.exponential(1/recovery_rates[node])
+        if node not in node_rec_times:
+          node_rec_times[node] = recoveryTime
         for neighbor in neighbors_per_node[node]:
             transmissionTime = np.random.exponential(1/transmissionRate)
+            edge_transmit_times[(node, neighbor)] = transmissionTime
             if (transmissionTime <= recoveryTime):
                 newGraph.append([node, neighbor])
-                edge_transmit_times[(node, neighbor)] = transmissionTime
-                if node not in node_rec_times:
-                    node_rec_times[node] = recoveryTime
-                
     return newGraph, node_rec_times, edge_transmit_times 
 
-def percolation2(neighbors_per_node, recoveryRate, node_rec_times, edge_transmit_times):
+def percolation2(neighbors_per_node, node_rec_times, edge_transmit_times):
     newGraph = []
     for node in neighbors_per_node:
-        recoveryTime = min(node_rec_times[node], np.random.exponential(1/recoveryRate))
+        recoveryTime = node_rec_times[node]
         for neighbor in neighbors_per_node[node]:
             transmissionTime = edge_transmit_times[(node, neighbor)]
             if (transmissionTime <= recoveryTime):
@@ -172,21 +171,6 @@ def strategyFraction(fraction, initial_recovery_rate, N, budget):
       recoveryRates[3*i + 1] += recoveryRate
       recoveryRates[3*i + 2] += recoveryRate
   return recoveryRates
-
-def percolation1(neighbors_per_node, transmissionRate, recoveryRate):
-  newGraph = []
-  node_rec_times = {}
-  edge_transmit_times = {}
-  for node in neighbors_per_node:
-      recoveryTime = np.random.exponential(1/recoveryRate)
-      for neighbor in neighbors_per_node[node]:
-          transmissionTime = np.random.exponential(1/transmissionRate)
-          if (transmissionTime <= recoveryTime):
-              newGraph.append([node, neighbor])
-              edge_transmit_times[[node, neighbor]] = transmissionTime
-              if node not in node_rec_times:
-                  node_rec_times[node] = recoveryTime
-  return newGraph, node_rec_times, edge_transmit_times
 
 # STRONGLY CONNECTED COMPONENT
 
@@ -325,11 +309,11 @@ def calculateSCC(fraction, numOfTriangles, numOfTrials, transmissionRate, initia
 
     for node in recovery_rates:
       if recovery_rates[node] != initialRecoveryRate:
-        newRecoveryRate = recovery_rates[node] + ((budget2 - budget1)/(numOfTriangles*3))
+        newRecoveryRate = (budget2 - budget1)/(numOfTriangles*3)
         newRecTime = min(node_rec_times[node], np.random.exponential(1/newRecoveryRate))
         node_rec_times[node] = newRecTime
 
-    secondGraph = percolation2(neighbors_per_node, transmissionRate, node_rec_times, edge_transmit_times)
+    secondGraph = percolation2(neighbors_per_node, node_rec_times, edge_transmit_times)
     # new_neighbors_per_node2 = tuples_to_dict(secondGraph, numOfTriangles*3)
     # infected_nodes2 = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node2)
     # num_infected2.append(len(infected_nodes2))
