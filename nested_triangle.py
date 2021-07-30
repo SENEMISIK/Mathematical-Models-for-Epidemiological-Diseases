@@ -111,7 +111,7 @@ def percolation(neighbors_per_node, transmissionRate, recovery_rates):
                 if node not in node_rec_times:
                     node_rec_times[node] = recoveryTime
                 
-    return newGraph   
+    return newGraph, node_rec_times, edge_transmit_times 
 
 def percolation2(neighbors_per_node, recoveryRate, node_rec_times, edge_transmit_times):
     newGraph = []
@@ -121,7 +121,7 @@ def percolation2(neighbors_per_node, recoveryRate, node_rec_times, edge_transmit
             transmissionTime = edge_transmit_times[(node, neighbor)]
             if (transmissionTime <= recoveryTime):
                 newGraph.append([node, neighbor])
-    return newGraph, node_rec_times, edge_transmit_times 
+    return newGraph
 
 def find_connected_nodes(node, graph_dict, connected_component):
   if node not in connected_component:
