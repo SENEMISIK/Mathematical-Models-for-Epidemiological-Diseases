@@ -157,6 +157,117 @@ def calculateFinalInfection(numOfInfectedNodes, numOfTriangles, numOfTrials, tra
 
   return np.mean(num_infected1), np.mean(num_infected2)
 
+# STRONGLY CONNECTED COMPONENT
+
+def dfs(node, graph_dict, visited, stack):
+  visited[node] = True
+  for neighbor in graph_dict[node]:
+    if visited[neighbor] == False:
+      dfs(neighbor, graph_dict, visited, stack)
+  stack.append(node)
+
+def dfs2(node, graph_dict, visited, scc):
+  visited[node] = True
+  # print (node)
+  scc.append(node)
+  for neighbor in graph_dict[node]:
+    if visited[neighbor] == False:
+      dfs2(neighbor, graph_dict, visited, scc) # or dfs?
+
+def get_transpose(graph):
+  trans = []
+  for edge in graph:
+    trans.append([edge[1], edge[0]])
+  # print (trans)
+  return trans
+
+
+def find_sccs(graph, N):
+  stack = []
+  sccs = []
+  graph_dict = tuples_to_dict(graph, N)
+  visited =[False]*N
+
+  for i in range(N):
+    if visited[i] == False:
+      dfs(i, graph_dict, visited, stack)
+  
+  # print (stack)
+  trans = get_transpose(graph)
+  trans_dict = tuples_to_dict(trans, N)
+  visited =[False]*N
+  
+
+  while stack:
+    i = stack.pop()
+    # print (i)
+    if visited[i]==False:
+      scc = []
+      dfs2(i, trans_dict, visited, scc)
+      # print (scc)
+      sccs.append(scc)
+      # print ("")
+  return sccs
+
+def isConnected(node1, node2, graph_dict, visited):
+  # if node1 == node2:
+  #   # print ("yes")
+  #   return True
+  
+  # visited[node1] = True
+  # for neighbor in graph_dict[node1]:
+  #   if visited[neighbor] == False:
+  #     if isConnected(neighbor, node2, graph_dict, visited) == False:
+  #       return False
+  #     else:
+  #       return True
+
+  stack = []
+  stack.append(node1)
+  visited[node1] = True
+
+  while stack:
+    node = stack.pop()
+    for neighbor in graph_dict[node]:
+      # print (neighbor)
+      if neighbor == node2:
+        return True
+
+      if visited[neighbor] == False:
+        stack.append(neighbor)
+        visited[neighbor] = True
+  return False
+
+def generate_bowtie(graph, N):
+  sccs = find_sccs(graph, N)
+  node_list = [i for i in range(N)]
+  sizes = []
+  # print (sccs)
+  for scc in sccs:
+    sizes.append(len(scc))
+  ind = np.argmax(sizes)
+  max_scc = sccs[ind]
+  graph_dict = tuples_to_dict(graph, N)
+  scc_out = []
+  for node in max_scc:
+    node_list.remove(node)
+    connected_component = []
+    find_connected_nodes(node, graph_dict, connected_component)
+    for i in connected_component:
+      if i not in max_scc and i not in scc_out:
+        scc_out.append(i)
+        node_list.remove(i)
+  scc_in = []
+  # print (node_list)
+  for node in node_list:
+    visited = [False]*N
+    if isConnected(node, max_scc[0], graph_dict, visited):
+      scc_in.append(node)
+      # print (scc_in)
+  
+  return scc_in, max_scc, scc_out
+
+
 # FRACTION
 
 def strategyFraction(fraction, initial_recovery_rate, N, budget):
@@ -189,17 +300,28 @@ def percolation1(neighbors_per_node, transmissionRate, recoveryRate):
                   node_rec_times[node] = recoveryTime
   return newGraph, node_rec_times, edge_transmit_times
 
-def calculateFinalInfection(fraction, numOfInfectedNodes, numOfTriangles, numOfTrials, transmissionRate, initialRecoveryRate, budget1, budget2):
-  num_infected1 = []
-  num_infected2 = []
+# numOfInfectedNodes 
+def calculateFinalInfection(fraction, numOfTriangles, numOfTrials, transmissionRate, initialRecoveryRate, budget1, budget2):
+  # num_infected1 = []
+  # num_infected2 = []
+  scc_in_budget1 = [] 
+  max_scc1_budget1 = []
+  scc_out1_budget1 = []
+  scc_in_budget2 = [] 
+  max_scc1_budget2 = []
+  scc_out1_budget2 = []
   for _ in range(numOfTrials):
     graph = triangle(numOfTriangles)
     neighbors_per_node = tuples_to_dict(graph, numOfTriangles*3)
     recovery_rates = strategyFraction(fraction, initialRecoveryRate, numOfTriangles, budget1)
     firstGraph, node_rec_times, edge_transmit_times = percolation(neighbors_per_node, transmissionRate, initialRecoveryRate, recovery_rates)
-    new_neighbors_per_node = tuples_to_dict(firstGraph, numOfTriangles*3)
-    infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node)
-    num_infected1.append(len(infected_nodes))
+    # new_neighbors_per_node = tuples_to_dict(firstGraph, numOfTriangles*3)
+    # infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node)
+    # num_infected1.append(len(infected_nodes))
+    scc_in1, max_scc1, scc_out1 = generate_bowtie(firstGraph, numOfTriangles*3)
+    scc_in_budget1.append(scc_in1)
+    max_scc1_budget1.append(max_scc1)
+    scc_out1_budget1.append(scc_out1)
 
     for node in recovery_rates:
       if recovery_rates[node] != initialRecoveryRate:
@@ -208,8 +330,13 @@ def calculateFinalInfection(fraction, numOfInfectedNodes, numOfTriangles, numOfT
         node_rec_times[node] = newRecTime
 
     secondGraph = percolation2(neighbors_per_node, transmissionRate, node_rec_times, edge_transmit_times)
-    new_neighbors_per_node2 = tuples_to_dict(secondGraph, numOfTriangles*3)
-    infected_nodes2 = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node2)
-    num_infected2.append(len(infected_nodes2))
+    # new_neighbors_per_node2 = tuples_to_dict(secondGraph, numOfTriangles*3)
+    # infected_nodes2 = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node2)
+    # num_infected2.append(len(infected_nodes2))
+    scc_in2, max_scc2, scc_out2 = generate_bowtie(secondGraph, numOfTriangles*3)
+    scc_in_budget2.append(scc_in2)
+    max_scc1_budget2.append(max_scc2)
+    scc_out1_budget2.append(scc_out2)
 
-  return np.mean(num_infected1), np.mean(num_infected2)
+  # return np.mean(num_infected1), np.mean(num_infected2)
+  return np.mean(scc_in_budget1), np.mean(max_scc1_budget1), np.mean(scc_out1_budget1), np.mean(scc_in_budget2), np.mean(max_scc1_budget2), np.mean(scc_out1_budget2) 
