@@ -185,6 +185,7 @@ def strategyFraction(fraction, initial_recovery_rate, N, budget):
   recoveryRates = {}
   number = round(fraction * N)
   triangles = np.random.choice(np.arange(N), number)
+  print(triangles)
   recoveryRate = round(budget/(3*number))
   for i in range(N):
     recoveryRates[3*i] = initial_recovery_rate
@@ -336,11 +337,10 @@ def calculateSCC(fraction, numOfTriangles, numOfTrials, transmissionRate, initia
     print(recovery_rates)
     for node in recovery_rates:
       if recovery_rates[node] != initialRecoveryRate:
-        print("AAAAA!!!!!! ")
         newRecoveryRate = (budget2 - budget1)/(numOfTriangles*3)
         newRecTime = min(node_rec_times[node], np.random.exponential(1/newRecoveryRate))
         node_rec_times[node] = newRecTime
-    print(recovery_rates)
+
     secondGraph = percolation2(neighbors_per_node, node_rec_times, edge_transmit_times)
     # new_neighbors_per_node2 = tuples_to_dict(secondGraph, numOfTriangles*3)
     # infected_nodes2 = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node2)
