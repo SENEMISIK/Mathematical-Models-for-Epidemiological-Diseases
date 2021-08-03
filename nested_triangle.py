@@ -185,8 +185,8 @@ def strategyFraction(fraction, initial_recovery_rate, N, budget):
   recoveryRates = {}
   number = round(fraction * N)
   triangles = np.random.choice(np.arange(N), number)
-  print("TRIANGLES" + str(triangles))
-  recoveryRate = round(budget/(3*number))
+  print("TRIANGLES: " + str(triangles))
+  recoveryRate = budget/(3*number)
   for i in range(N):
     recoveryRates[3*i] = initial_recovery_rate
     recoveryRates[3*i + 1] = initial_recovery_rate
