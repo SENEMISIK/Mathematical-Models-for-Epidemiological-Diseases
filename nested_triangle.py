@@ -334,7 +334,6 @@ def calculateSCC(fraction, numOfTriangles, numOfTrials, transmissionRate, initia
     max_scc1_budget1.append(len(max_scc1))
     scc_out1_budget1.append(len(scc_out1))
    
-    # print(recovery_rates)
     for node in recovery_rates:
       if recovery_rates[node] != initialRecoveryRate:
         newRecoveryRate = (budget2 - budget1)/(numOfTriangles*3)
