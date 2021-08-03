@@ -94,7 +94,7 @@ def triangle(N):
 
 def strategy1(initial_recovery_rate, N, budget):
     recoveryRates = {}
-    recoveryRate = round(budget/(3*N))
+    recoveryRate = budget/(3*N)
     for i in range(N):
         recoveryRates[3*i] = initial_recovery_rate + recoveryRate
         recoveryRates[3*i + 1] = initial_recovery_rate + recoveryRate
@@ -103,7 +103,7 @@ def strategy1(initial_recovery_rate, N, budget):
 
 def strategy2(initial_recovery_rate, N, budget):
     recoveryRates = {}
-    recoveryRate = round(budget/(2*N))
+    recoveryRate = budget/(2*N)
     for i in range(N):
         recoveryRates[3*i] = initial_recovery_rate
         recoveryRates[3*i + 1] = initial_recovery_rate
@@ -115,7 +115,7 @@ def strategy2(initial_recovery_rate, N, budget):
 
 def strategy3(initial_recovery_rate, N, budget):
     recoveryRates = {}
-    recoveryRate = round(budget/N)
+    recoveryRate = budget/N
     for i in range(N):
         recoveryRates[3*i] = initial_recovery_rate
         recoveryRates[3*i + 1] = initial_recovery_rate
@@ -129,7 +129,7 @@ def strategyFraction1(fraction, initial_recovery_rate, N, budget):
   recoveryRates = {}
   number = round(fraction * N)
   triangles = np.random.choice(np.arange(N), number)
-  recoveryRate = round(budget/(3*number))
+  recoveryRate = budget/(3*number)
   for i in range(N):
     recoveryRates[3*i] = initial_recovery_rate
     recoveryRates[3*i + 1] = initial_recovery_rate
@@ -144,7 +144,7 @@ def strategyFraction2(fraction, initial_recovery_rate, N, budget):
   recoveryRates = {}
   number = round(fraction * N)
   triangles = np.random.choice(np.arange(N), number)
-  recoveryRate = round(budget/(2*number))
+  recoveryRate = budget/(2*number)
   for i in range(N):
     recoveryRates[3*i] = initial_recovery_rate
     recoveryRates[3*i + 1] = initial_recovery_rate
@@ -159,7 +159,7 @@ def strategyFraction3(fraction, initial_recovery_rate, N, budget):
   recoveryRates = {}
   number = round(fraction * N)
   triangles = np.random.choice(np.arange(N), number)
-  recoveryRate = round(budget/(number))
+  recoveryRate = budget/(number)
   for i in range(N):
     recoveryRates[3*i] = initial_recovery_rate
     recoveryRates[3*i + 1] = initial_recovery_rate
