@@ -1,5 +1,4 @@
 import numpy as np
-import random
 
 # TRIANGLE INSIDE THE CONFIGURATION MODEL
 
