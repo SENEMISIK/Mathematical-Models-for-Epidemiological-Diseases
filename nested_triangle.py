@@ -308,7 +308,7 @@ def generate_bowtie(graph, N):
 
 # CALCULATE SCCs!!!
 
-def calculateSCC(numOfTriangles, transmissionRate, num_infected, scc_in_budget, max_scc_budget, scc_out_budget):
+def calculateSCC(neighbors_per_node, recovery_rates, numOfTriangles, transmissionRate, num_infected, scc_in_budget, max_scc_budget, scc_out_budget):
   firstGraph, node_rec_times, edge_transmit_times = percolation(neighbors_per_node, transmissionRate, recovery_rates)
   scc_in, max_scc, scc_out = generate_bowtie(firstGraph, numOfTriangles*3)
   scc_in_budget.append(len(scc_in))
@@ -320,7 +320,7 @@ def calculateSCC(numOfTriangles, transmissionRate, num_infected, scc_in_budget, 
   num_infected.append(len(infected_nodes))
   return node_rec_times, edge_transmit_times
 
-def newRecoveries(recovery_rates, node_rec_times, budget2, budget1):
+def newRecoveries(initialRecoveryRate, numOfTriangles, recovery_rates, node_rec_times, budget2, budget1):
   for node in recovery_rates:
     if recovery_rates[node] != initialRecoveryRate:
       RecoveryRateDifference = (budget2 - budget1)/(numOfTriangles*3)
@@ -328,7 +328,7 @@ def newRecoveries(recovery_rates, node_rec_times, budget2, budget1):
       recovery_rates[node] += RecoveryRateDifference
       node_rec_times[node] = newRecTime
 
-def calculaateSCC2(neighbors_per_node, node_rec_times, edge_transmit_times, num_infected, scc_in_budget, max_scc_budget, scc_out_budget):
+def calculaateSCC2(numOfTriangles, neighbors_per_node, node_rec_times, edge_transmit_times, num_infected, scc_in_budget, max_scc_budget, scc_out_budget):
     newGraph = percolation2(neighbors_per_node, node_rec_times, edge_transmit_times)
     scc_in, max_scc, scc_out = generate_bowtie(newGraph, numOfTriangles*3)
     scc_in_budget.append(len(scc_in))
