@@ -308,46 +308,69 @@ def generate_bowtie(graph, N):
 
 # CALCULATE SCCs!!!
 
-def calculateSCC(fraction, numOfTriangles, numOfTrials, transmissionRate, initialRecoveryRate, budget1, budget2):
-  num_infected1 = []
-  num_infected2 = []
-  numOfInfectedNodes = 1 
-  scc_in_budget1 = [] 
-  max_scc1_budget1 = []
-  scc_out1_budget1 = []
-  scc_in_budget2 = [] 
-  max_scc1_budget2 = []
-  scc_out1_budget2 = []
-  for i in range(numOfTrials):
-    print(i)
-    graph = triangle(numOfTriangles)
-    neighbors_per_node = tuples_to_dict(graph, numOfTriangles*3)
-    recovery_rates = strategyFraction(fraction, initialRecoveryRate, numOfTriangles, budget1)
-    
-    firstGraph, node_rec_times, edge_transmit_times = percolation(neighbors_per_node, transmissionRate, recovery_rates)
-    scc_in1, max_scc1, scc_out1 = generate_bowtie(firstGraph, numOfTriangles*3)
-    scc_in_budget1.append(len(scc_in1))
-    max_scc1_budget1.append(len(max_scc1))
-    scc_out1_budget1.append(len(scc_out1))
+def calculateSCC(numOfTriangles, transmissionRate, num_infected, scc_in_budget, max_scc_budget, scc_out_budget):
+  firstGraph, node_rec_times, edge_transmit_times = percolation(neighbors_per_node, transmissionRate, recovery_rates)
+  scc_in, max_scc, scc_out = generate_bowtie(firstGraph, numOfTriangles*3)
+  scc_in_budget.append(len(scc_in))
+  max_scc_budget.append(len(max_scc))
+  scc_out_budget.append(len(scc_out))
 
-    new_neighbors_per_node = tuples_to_dict(firstGraph, numOfTriangles*3)
-    infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node)
-    num_infected1.append(len(infected_nodes))
-    
-    for node in recovery_rates:
-      if recovery_rates[node] != initialRecoveryRate:
-        newRecoveryRate = (budget2 - budget1)/(numOfTriangles*3)
-        newRecTime = min(node_rec_times[node], np.random.exponential(1/newRecoveryRate))
-        node_rec_times[node] = newRecTime
+  new_neighbors_per_node = tuples_to_dict(firstGraph, numOfTriangles*3)
+  infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], 1), new_neighbors_per_node)
+  num_infected.append(len(infected_nodes))
+  return node_rec_times, edge_transmit_times
 
-    secondGraph = percolation2(neighbors_per_node, node_rec_times, edge_transmit_times)
-    scc_in2, max_scc2, scc_out2 = generate_bowtie(secondGraph, numOfTriangles*3)
-    scc_in_budget2.append(len(scc_in2))
-    max_scc1_budget2.append(len(max_scc2))
-    scc_out1_budget2.append(len(scc_out2))
+def newRecoveries(recovery_rates, node_rec_times, budget2, budget1):
+  for node in recovery_rates:
+    if recovery_rates[node] != initialRecoveryRate:
+      RecoveryRateDifference = (budget2 - budget1)/(numOfTriangles*3)
+      newRecTime = min(node_rec_times[node], np.random.exponential(1/RecoveryRateDifference))
+      recovery_rates[node] += RecoveryRateDifference
+      node_rec_times[node] = newRecTime
 
-    new_neighbors_per_node2 = tuples_to_dict(secondGraph, numOfTriangles*3)
-    infected_nodes2 = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node2)
-    num_infected2.append(len(infected_nodes2))
+def calculaateSCC2(neighbors_per_node, node_rec_times, edge_transmit_times, num_infected, scc_in_budget, max_scc_budget, scc_out_budget):
+    newGraph = percolation2(neighbors_per_node, node_rec_times, edge_transmit_times)
+    scc_in, max_scc, scc_out = generate_bowtie(newGraph, numOfTriangles*3)
+    scc_in_budget.append(len(scc_in))
+    max_scc_budget.append(len(max_scc))
+    scc_out_budget.append(len(scc_out))
 
-  return np.mean(num_infected1), np.mean(num_infected2), np.mean(scc_in_budget1), np.mean(max_scc1_budget1), np.mean(scc_out1_budget1), np.mean(scc_in_budget2), np.mean(max_scc1_budget2), np.mean(scc_out1_budget2) 
+    new_neighbors_per_node = tuples_to_dict(newGraph, numOfTriangles*3)
+    infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], 1), new_neighbors_per_node)
+    num_infected.append(len(infected_nodes))
+
+# numOfTriangles = 100
+# fraction = 0.75
+# initialRecoveryRate = 0.01
+# budgets = [25, 75, 125, 175, 225, 275]
+# transmissionRate = 0.7
+# numOfTrails = 10
+
+# numInfected = []
+# sccInBudget = [] 
+# MaxSccBudget = []
+# SccOutBudget = []
+
+# for i in range(numOfTrails):
+#   num_infected = []
+#   scc_in_budget = [] 
+#   max_scc_budget = []
+#   scc_out_budget = []
+
+#   graph = triangle(numOfTriangles)
+#   neighbors_per_node = tuples_to_dict(graph, numOfTriangles*3)
+#   recovery_rates = strategyFraction(fraction, initialRecoveryRate, numOfTriangles, budgets[0])
+
+#   node_rec_times, edge_transmit_times = calculateSCC(numOfTriangles, transmissionRate, num_infected, scc_in_budget, max_scc_budget, scc_out_budget)
+
+#   for i in range(1, len(budgets)):
+#     newRecoveries(recovery_rates, node_rec_times, budgets[i], budgets[i-1])
+#     calculaateSCC2(neighbors_per_node, node_rec_times, edge_transmit_times, num_infected, scc_in_budget, max_scc_budget, scc_out_budget)
+
+# numInfected.append(num_infected)
+# sccInBudget.append(scc_in_budget)
+# MaxSccBudget.append(max_scc_budget)
+# SccOutBudget.append(scc_out_budget)
+
+
+
