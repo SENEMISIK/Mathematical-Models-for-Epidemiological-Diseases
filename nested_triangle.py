@@ -190,7 +190,7 @@ def strategyFraction(fraction, initial_recovery_rate, N, budget):
     recoveryRates[3*i] = initial_recovery_rate
     recoveryRates[3*i + 1] = initial_recovery_rate
     recoveryRates[3*i + 2] = initial_recovery_rate
-    if (i in triangles):
+    if i in triangles:
       recoveryRates[3*i] += recoveryRate
       recoveryRates[3*i + 1] += recoveryRate
       recoveryRates[3*i + 2] += recoveryRate
