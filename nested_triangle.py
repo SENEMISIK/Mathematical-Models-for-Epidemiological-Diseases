@@ -333,6 +333,7 @@ def calculateSCC(fraction, numOfTriangles, numOfTrials, transmissionRate, initia
     max_scc1_budget1.append(len(max_scc1))
     scc_out1_budget1.append(len(scc_out1))
     print("before for")
+    print(recovery_rates)
     for node in recovery_rates:
       print("after for before if")
       if recovery_rates[node] != initialRecoveryRate:
