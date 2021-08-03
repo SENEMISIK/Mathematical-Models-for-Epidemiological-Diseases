@@ -120,7 +120,8 @@ def percolation_alternative(neighbors_per_node, transmissionRate, recovery_rates
             transmissionTime = np.random.exponential(1/transmissionRate)
             if (transmissionTime <= recoveryTime):
                 newGraph.append([node, neighbor])
-                node_rec_times[node] = recoveryTime
+                if node not in node_rec_times:
+                  node_rec_times[node] = recoveryTime
                 edge_transmit_times[(node, neighbor)] = transmissionTime
     return newGraph, node_rec_times, edge_transmit_times 
 
