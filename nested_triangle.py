@@ -185,7 +185,6 @@ def strategyFraction(fraction, initial_recovery_rate, N, budget):
   recoveryRates = {}
   number = round(fraction * N)
   triangles = np.random.choice(np.arange(N), number)
-  print("TRIANGLES: " + str(triangles))
   recoveryRate = budget/(3*number)
   for i in range(N):
     recoveryRates[3*i] = initial_recovery_rate
@@ -319,7 +318,8 @@ def calculateSCC(fraction, numOfTriangles, numOfTrials, transmissionRate, initia
   scc_in_budget2 = [] 
   max_scc1_budget2 = []
   scc_out1_budget2 = []
-  for _ in range(numOfTrials):
+  for i in range(numOfTrials):
+    print(i)
     graph = triangle(numOfTriangles)
     neighbors_per_node = tuples_to_dict(graph, numOfTriangles*3)
     recovery_rates = strategyFraction(fraction, initialRecoveryRate, numOfTriangles, budget1)
