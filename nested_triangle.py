@@ -332,8 +332,9 @@ def calculateSCC(fraction, numOfTriangles, numOfTrials, transmissionRate, initia
     scc_in_budget1.append(len(scc_in1))
     max_scc1_budget1.append(len(max_scc1))
     scc_out1_budget1.append(len(scc_out1))
-
+    print("before for")
     for node in recovery_rates:
+      print("after for before if")
       if recovery_rates[node] != initialRecoveryRate:
         print(node_rec_times[node])
         newRecoveryRate = (budget2 - budget1)/(numOfTriangles*3)
@@ -341,6 +342,7 @@ def calculateSCC(fraction, numOfTriangles, numOfTrials, transmissionRate, initia
         node_rec_times[node] = newRecTime
         print(node_rec_times[node])
         print(" ")
+    print("afterfor")
     
     secondGraph = percolation2(neighbors_per_node, node_rec_times, edge_transmit_times)
     # new_neighbors_per_node2 = tuples_to_dict(secondGraph, numOfTriangles*3)
