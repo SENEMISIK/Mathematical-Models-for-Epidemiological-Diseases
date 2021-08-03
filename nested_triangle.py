@@ -327,7 +327,7 @@ def calculateSCC(fraction, numOfTriangles, numOfTrials, transmissionRate, initia
     # new_neighbors_per_node = tuples_to_dict(firstGraph, numOfTriangles*3)
     # infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node)
     # num_infected1.append(len(infected_nodes))
-    print(node_rec_times)
+    
     scc_in1, max_scc1, scc_out1 = generate_bowtie(firstGraph, numOfTriangles*3)
     scc_in_budget1.append(len(scc_in1))
     max_scc1_budget1.append(len(max_scc1))
@@ -335,10 +335,13 @@ def calculateSCC(fraction, numOfTriangles, numOfTrials, transmissionRate, initia
 
     for node in recovery_rates:
       if recovery_rates[node] != initialRecoveryRate:
+        print(node_rec_times[node])
         newRecoveryRate = (budget2 - budget1)/(numOfTriangles*3)
         newRecTime = min(node_rec_times[node], np.random.exponential(1/newRecoveryRate))
         node_rec_times[node] = newRecTime
-    print(node_rec_times)
+        print(node_rec_times[node])
+        print(" ")
+    
     secondGraph = percolation2(neighbors_per_node, node_rec_times, edge_transmit_times)
     # new_neighbors_per_node2 = tuples_to_dict(secondGraph, numOfTriangles*3)
     # infected_nodes2 = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node2)
