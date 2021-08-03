@@ -110,11 +110,35 @@ def percolation(neighbors_per_node, transmissionRate, recovery_rates):
                 newGraph.append([node, neighbor])
     return newGraph, node_rec_times, edge_transmit_times 
 
+def percolation_alternative(neighbors_per_node, transmissionRate, recovery_rates):
+    newGraph = []
+    node_rec_times = {}
+    edge_transmit_times = {}
+    for node in neighbors_per_node:
+        recoveryTime = np.random.exponential(1/recovery_rates[node])
+        for neighbor in neighbors_per_node[node]:
+            transmissionTime = np.random.exponential(1/transmissionRate)
+            if (transmissionTime <= recoveryTime):
+                newGraph.append([node, neighbor])
+                node_rec_times[node] = recoveryTime
+                edge_transmit_times[(node, neighbor)] = transmissionTime
+    return newGraph, node_rec_times, edge_transmit_times 
+
 def percolation2(neighbors_per_node, node_rec_times, edge_transmit_times):
     newGraph = []
     for node in neighbors_per_node:
         recoveryTime = node_rec_times[node]
         for neighbor in neighbors_per_node[node]:
+            transmissionTime = edge_transmit_times[(node, neighbor)]
+            if (transmissionTime <= recoveryTime):
+                newGraph.append([node, neighbor])
+    return newGraph
+
+def percolation2_alternative(new_neighbors_per_node,node_rec_times, edge_transmit_times):
+    newGraph = []
+    for node in new_neighbors_per_node:
+        recoveryTime = node_rec_times[node]
+        for neighbor in new_neighbors_per_node[node]:
             transmissionTime = edge_transmit_times[(node, neighbor)]
             if (transmissionTime <= recoveryTime):
                 newGraph.append([node, neighbor])
@@ -296,8 +320,8 @@ def calculateSCC(fraction, numOfTriangles, numOfTrials, transmissionRate, initia
     graph = triangle(numOfTriangles)
     neighbors_per_node = tuples_to_dict(graph, numOfTriangles*3)
     recovery_rates = strategyFraction(fraction, initialRecoveryRate, numOfTriangles, budget1)
-    firstGraph, node_rec_times, edge_transmit_times = percolation(neighbors_per_node, transmissionRate, recovery_rates)
-    # new_neighbors_per_node = tuples_to_dict(firstGraph, numOfTriangles*3)
+    firstGraph, node_rec_times, edge_transmit_times = percolation_alternative(neighbors_per_node, transmissionRate, recovery_rates)
+    new_neighbors_per_node = tuples_to_dict(firstGraph, numOfTriangles*3)
     # infected_nodes = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node)
     # num_infected1.append(len(infected_nodes))
     scc_in1, max_scc1, scc_out1 = generate_bowtie(firstGraph, numOfTriangles*3)
@@ -311,7 +335,7 @@ def calculateSCC(fraction, numOfTriangles, numOfTrials, transmissionRate, initia
         newRecTime = min(node_rec_times[node], np.random.exponential(1/newRecoveryRate))
         node_rec_times[node] = newRecTime
 
-    secondGraph = percolation2(neighbors_per_node, node_rec_times, edge_transmit_times)
+    secondGraph = percolation2_alternative(new_neighbors_per_node, node_rec_times, edge_transmit_times)
     # new_neighbors_per_node2 = tuples_to_dict(secondGraph, numOfTriangles*3)
     # infected_nodes2 = find_entire_connection(random.sample([i for i in range(0, numOfTriangles*3)], numOfInfectedNodes), new_neighbors_per_node2)
     # num_infected2.append(len(infected_nodes2))
