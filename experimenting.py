@@ -259,7 +259,7 @@ def calculateFinalInfection4(fraction, numOfInfectedNodes, numOfTriangles, numOf
       sizes.append(0)
     infected_nodes = find_entire_connection(random.sample([i for i in range(0, 3*numOfTriangles)], numOfInfectedNodes), neighbors_per_node)
     num_infected.append(len(infected_nodes))
-  print (np.mean(sizes))
+  # print (np.mean(sizes))
   return np.mean(num_infected)
 
 def calculateFinalInfection5(fraction, numOfInfectedNodes, numOfTriangles, numOfTrials, transmissionRate, initial_recovery_rate, budget):
