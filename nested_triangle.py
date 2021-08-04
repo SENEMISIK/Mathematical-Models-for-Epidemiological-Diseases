@@ -341,7 +341,7 @@ def calculaateSCC2(source, numOfTriangles, neighbors_per_node, node_rec_times, e
     new_neighbors_per_node = tuples_to_dict(newGraph, numOfTriangles*3)
     inf = []
     for i in range(len(source)):
-      infected_nodes = find_entire_connection(source[i], new_neighbors_per_node)
+      infected_nodes = find_entire_connection([source[i]], new_neighbors_per_node)
       inf.append(len(infected_nodes))
     num_infected.append(np.mean(inf))
 
