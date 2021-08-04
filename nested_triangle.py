@@ -159,6 +159,11 @@ def find_entire_connection(infected_nodes, neighbors_per_node):
     find_connected_nodes(node, neighbors_per_node, connected_nodes)
   return connected_nodes
 
+def find_entire_connection1(infected_node, neighbors_per_node):
+  connected_nodes = []
+  find_connected_nodes(infected_node, neighbors_per_node, connected_nodes)
+  return connected_nodes
+
 def calculateFinalInfection(numOfInfectedNodes, numOfTriangles, numOfTrials, transmissionRate, budget1, budget2):
   num_infected1 = []
   num_infected2 = []
@@ -341,7 +346,7 @@ def calculaateSCC2(source, numOfTriangles, neighbors_per_node, node_rec_times, e
     new_neighbors_per_node = tuples_to_dict(newGraph, numOfTriangles*3)
     inf = []
     for i in range(len(source)):
-      infected_nodes = find_entire_connection([source[i]], new_neighbors_per_node)
+      infected_nodes = find_entire_connection1(source[i], new_neighbors_per_node)
       inf.append(len(infected_nodes))
     num_infected.append(np.mean(inf))
 
