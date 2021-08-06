@@ -41,11 +41,6 @@ def recovery_rates(graph, initial_recovery_rate, budget, numOfNodes):
         if edge[0] not in degDict:
             degDict[edge[0]] = 0
         degDict[edge[0]] += 1
-<<<<<<< HEAD
-    recoveryRates = {} 
-    for node in degDict:
-        recoveryRates[node] = initial_recovery_rate + budget/len(degDict)#(degDict[node]/sum)*budget
-=======
     recoveryRates = {}
     for node in range(numOfNodes):
         # recoveryRates[node] = initial_recovery_rate + (budget/numOfNodes)
@@ -53,7 +48,6 @@ def recovery_rates(graph, initial_recovery_rate, budget, numOfNodes):
           recoveryRates[node] = initial_recovery_rate + (degDict[node]/sum)*budget
         else: 
           recoveryRates[node] = initial_recovery_rate
->>>>>>> 51e92f0767ab582c7a8a4dbb17558ea4d1df09a8
     return recoveryRates 
 
 def calculateFinalInfection(numOfInfectedNodes, numOfNodes, numOfEdges, numOfTrials, transmissionRate, initial_recovery_rate, budget):
