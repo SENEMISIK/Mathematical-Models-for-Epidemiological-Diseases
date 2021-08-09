@@ -188,7 +188,7 @@ def degreeProportional(graph_dict, recovery_rates, budget):
         if sum != 0:
           recovery_rates[node] += (degDict[node]/sum)*budget
         else:
-          recovery_rates[node] = 0
+          recovery_rates[node] = budget
       
 def findNewGraph(graph_dict, nodes1, nodes2):
   new_graph_dict1 = {}
