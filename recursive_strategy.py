@@ -17,7 +17,10 @@ def erdos_renyi_graph(N, M):
 def find_degrees(graph_dict, node_list):
   degs = []
   for i in node_list:
-    degs.append(len(graph_dict[i]))
+    if i in graph_dict:
+      degs.append(len(graph_dict[i]))
+    else:
+      degs.append(0)
   return degs
 
 def barbell(n1, n2):
@@ -169,7 +172,6 @@ def measureSpectralGap(graph_dict, node_list):
   L = graph_to_laplacian(graph_dict, node_list)
   results = la.eig(L)
   eigvalues = results[0].real
-
   idx = eigvalues.argsort()[::-1]
   eigvalues = eigvalues[idx]
   # print (eigvalues)
