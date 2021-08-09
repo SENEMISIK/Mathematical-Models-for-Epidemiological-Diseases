@@ -17,10 +17,7 @@ def erdos_renyi_graph(N, M):
 def find_degrees(graph_dict, node_list):
   degs = []
   for i in node_list:
-    if i in graph_dict:
-      degs.append(len(graph_dict[i]))
-    else:
-      degs.append(0)
+    degs.append(len(graph_dict[i]))
   return degs
 
 def barbell(n1, n2):
@@ -192,16 +189,17 @@ def findNewGraph(graph_dict, nodes1, nodes2):
   len1 = 0
   new_graph_dict2 = {}
   len2 = 0
+  all_nodes = nodes1 + nodes2
+  for node in nodes1:
+    new_graph_dict1[node] = []
+  for node in nodes2:
+    new_graph_dict2[node] = []
   for node in graph_dict:
     for neighbor in graph_dict[node]:
       if node in nodes1 and neighbor in nodes1:
-        if node not in new_graph_dict1:
-          new_graph_dict1[node] = []
         new_graph_dict1[node].append(neighbor)
         len1 += 1
       if node in nodes2 and neighbor in nodes2:
-        if node not in new_graph_dict2:
-          new_graph_dict2[node] = []
         new_graph_dict2[node].append(neighbor)
         len2 += 1
   return new_graph_dict1, len1, new_graph_dict2, len2
