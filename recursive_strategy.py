@@ -166,15 +166,17 @@ def graph_to_laplacian(graph_dict, node_list):
         L[node_index(neighbor, node_list)][node_index(node, node_list)] = -1
   return L
 
-def measureSpectralGap(graph_dict, node_list):
+def measureSpectralGap(graph_dict, node_list, gap_threshold):
   L = graph_to_laplacian(graph_dict, node_list)
   results = la.eig(L)
   eigvalues = results[0].real
   idx = eigvalues.argsort()[::-1]
   eigvalues = eigvalues[idx]
   # print (eigvalues)
-  eig2 = eigvalues[-2]
-  return eig2
+  if len(eigvalues) > 2: 
+    eig2 = eigvalues[-2]
+    return eig2
+  return gap_threshold
 
 def degreeProportional(graph_dict, recovery_rates, budget):
     degDict = {}
@@ -208,8 +210,8 @@ def findNewGraph(graph_dict, nodes1, nodes2):
   return new_graph_dict1, len1, new_graph_dict2, len2
     
 def newStrategy(graph_dict, recovery_rates, budget, gap_threshold, boundary_threshold, node_list):
-  gap = measureSpectralGap(graph_dict, node_list)
-  if (gap < gap_threshold) and (len(node_list) > 4):
+  gap = measureSpectralGap(graph_dict, node_list, gap_threshold)
+  if (gap < gap_threshold) and (len(node_list) > 2):
     nodes1, nodes2 = sparsest_cut(graph_dict, node_list)
     graph_dict1, len1, graph_dict2, len2 = findNewGraph(graph_dict, nodes1, nodes2)
     min_cut_antidotes(graph_dict, node_list, budget, nodes1, nodes2, recovery_rates, boundary_threshold)
