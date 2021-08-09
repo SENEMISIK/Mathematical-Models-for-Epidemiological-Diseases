@@ -130,7 +130,7 @@ def find_boundary_nodes(graph_dict, part1, part2):
           nodes.append(neighbor)
   return nodes
 
-def min_cut_antidotes(graph_dict, node_list, initial_recovery_rate, budget, part1, part2, recoveryRates, boundaryThreshold):
+def min_cut_antidotes(graph_dict, node_list, budget, part1, part2, recoveryRates, boundaryThreshold):
   nodes = find_boundary_nodes(graph_dict, part1, part2)
   antidote_amt = budget/len(nodes)
   if antidote_amt > boundaryThreshold:
