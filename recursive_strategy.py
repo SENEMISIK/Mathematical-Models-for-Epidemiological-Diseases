@@ -105,7 +105,7 @@ def sparsest_cut(graph_dict, node_list):
       part1.append(node_list[id])
     for j in ids[i:]:
       part2.append(node_list[j])
-    density = edge_density(part1, part2, tuples_to_dict(graph, node_list), len(node_list))
+    density = edge_density(part1, part2, graph_dict, len(node_list))
     if density < curr_density and density > 0:
       curr_density = density
       curr_i = i
