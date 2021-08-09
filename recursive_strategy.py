@@ -141,7 +141,8 @@ def min_cut_antidotes(graph_dict, node_list, initial_recovery_rate, budget, part
       budget -= antidote_amt
   return recoveryRates
 
-def tuples_to_dict(graph, node_list):
+def tuples_to_dict(graph, N):
+  node_list = np.arange(N)    
   graph_dict = {}
   for i in node_list:
     graph_dict[i] = []
