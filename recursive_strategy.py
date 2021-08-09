@@ -189,7 +189,6 @@ def findNewGraph(graph_dict, nodes1, nodes2):
   len1 = 0
   new_graph_dict2 = {}
   len2 = 0
-  all_nodes = nodes1 + nodes2
   for node in nodes1:
     new_graph_dict1[node] = []
   for node in nodes2:
