@@ -284,7 +284,6 @@ def degree_proportional(graph, initial_recovery_rate, budget, numOfNodes):
         degDict[edge[0]] += 1
     recoveryRates = {}
     for node in range(numOfNodes):
-        # recoveryRates[node] = initial_recovery_rate + (budget/numOfNodes)
         if node in degDict:
           recoveryRates[node] = initial_recovery_rate + (degDict[node]/sum)*budget
         else: 
