@@ -206,7 +206,7 @@ def findNewGraph(graph_dict, nodes1, nodes2):
     
 def newStrategy(graph_dict, recovery_rates, budget, gap_threshold, boundary_threshold, node_list):
   gap = measureSpectralGap(graph_dict, node_list)
-  if (gap < gap_threshold) and (node_list > 3):
+  if (gap < gap_threshold) and (len(node_list) > 3):
     nodes1, nodes2 = sparsest_cut(graph_dict, node_list)
     graph_dict1, len1, graph_dict2, len2 = findNewGraph(graph_dict, nodes1, nodes2)
     min_cut_antidotes(graph_dict, node_list, budget, nodes1, nodes2, recovery_rates, boundary_threshold)
