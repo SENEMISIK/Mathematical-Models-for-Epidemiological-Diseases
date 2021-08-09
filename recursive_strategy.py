@@ -83,7 +83,8 @@ def edge_density(part1, part2, graph_dict, N):
     for neighbor in graph_dict[node]:
       if neighbor in part2:
         E += 1
-
+  print(part1)
+  print(part2)
   return N*(E/(len(part1)*len(part2)))
 
 def sparsest_cut(graph_dict, node_list):
