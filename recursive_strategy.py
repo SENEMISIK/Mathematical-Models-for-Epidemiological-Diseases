@@ -140,7 +140,7 @@ def min_cut_antidotes(graph_dict, node_list, budget, part1, part2, recoveryRates
     if node in nodes:
       recoveryRates[node] += antidote_amt
       budget -= antidote_amt
-  return recoveryRates
+  return recoveryRates, budget
 
 def tuples_to_dict(graph, N):
   node_list = np.arange(N)    
@@ -215,7 +215,7 @@ def newStrategy(graph_dict, recovery_rates, budget, gap_threshold, boundary_thre
     print("spectral partioning")
     nodes1, nodes2 = sparsest_cut(graph_dict, node_list)
     graph_dict1, len1, graph_dict2, len2 = findNewGraph(graph_dict, nodes1, nodes2)
-    min_cut_antidotes(graph_dict, node_list, budget, nodes1, nodes2, recovery_rates, boundary_threshold)
+    recovery_rates, budget = min_cut_antidotes(graph_dict, node_list, budget, nodes1, nodes2, recovery_rates, boundary_threshold)
     if (budget > 0):
       budget1 = budget * (len1 / (len1 + len2))
       budget2 = budget * (len2 / (len1 + len2))
