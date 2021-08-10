@@ -187,7 +187,7 @@ def degreeProportional(graph_dict, recovery_rates, budget):
     for node in degDict:
         if sum != 0:
           recovery_rates[node] += (degDict[node]/sum)*budget
-          
+
 def findNewGraph(graph_dict, nodes1, nodes2):
   new_graph_dict1 = {}
   len1 = 0
@@ -213,9 +213,9 @@ def newStrategy(graph_dict, recovery_rates, budget, gap_threshold, boundary_thre
     print("spectral partioning")
     nodes1, nodes2 = sparsest_cut(graph_dict, node_list)
     graph_dict1, len1, graph_dict2, len2 = findNewGraph(graph_dict, nodes1, nodes2)
-    print(budget)
+    print("beofre" + str(budget))
     recovery_rates, budget = min_cut_antidotes(graph_dict, node_list, budget, nodes1, nodes2, recovery_rates, boundary_threshold)
-    print(budget)
+    print("after" + str(budget))
     if (budget > 0):
       budget1 = budget * (len1 / (len1 + len2))
       budget2 = budget * (len2 / (len1 + len2))
