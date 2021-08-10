@@ -210,19 +210,19 @@ def findNewGraph(graph_dict, nodes1, nodes2):
 def newStrategy(graph_dict, recovery_rates, budget, gap_threshold, boundary_threshold, node_list):
   gap = measureSpectralGap(graph_dict, node_list, gap_threshold)
   if (gap < gap_threshold) and (len(node_list) > 3):
-    print("spectral partioning")
+    # print("spectral partioning")
     nodes1, nodes2 = sparsest_cut(graph_dict, node_list)
     graph_dict1, len1, graph_dict2, len2 = findNewGraph(graph_dict, nodes1, nodes2)
-    print("beofre" + str(budget))
+    # print("beofre" + str(budget))
     recovery_rates, budget = min_cut_antidotes(graph_dict, node_list, budget, nodes1, nodes2, recovery_rates, boundary_threshold)
-    print("after" + str(budget))
+    # print("after" + str(budget))
     if (budget > 0):
       budget1 = budget * (len1 / (len1 + len2))
       budget2 = budget * (len2 / (len1 + len2))
       newStrategy(graph_dict1, recovery_rates, budget1, gap_threshold, boundary_threshold, nodes1)
       newStrategy(graph_dict2, recovery_rates, budget2, gap_threshold, boundary_threshold, nodes2)
   else:
-    print("degree proportional")
+    # print("degree proportional")
     degreeProportional(graph_dict, recovery_rates, budget) 
   return recovery_rates
 
@@ -271,11 +271,11 @@ def calculateRecInfection(InfectedNodes, graph, N, numTrials, transmissionRate, 
         recovery_rates[i] = initial_rec
     node_list = np.arange(N)
     recoveryRates = newStrategy(graph_dict, recovery_rates, budget, gap_threshold, boundary_threshold, node_list)
-    print("Budget1: " + str(budget))
+    # print("Budget1: " + str(budget))
     sum = 0
     for i in recovery_rates:
           sum += recovery_rates[i] - 0.01
-    print("Antidotes used1: " + str(sum))
+    # print("Antidotes used1: " + str(sum))
     new_graph = percolation(graph_dict, transmissionRate, recoveryRates)
     neighbors_per_node = tuples_to_dict(new_graph, N)
     infected_nodes = find_entire_connection(random.sample([i for i in range(0, N)], InfectedNodes), neighbors_per_node)
@@ -295,11 +295,11 @@ def degree_proportional(graph, initial_recovery_rate, budget, numOfNodes):
           recoveryRates[node] = initial_recovery_rate + (degDict[node]/sum)*budget
         else: 
           recoveryRates[node] = initial_recovery_rate
-    print("Budget2: " + str(budget))
+    # print("Budget2: " + str(budget))
     sum = 0
     for i in recoveryRates:
           sum += recoveryRates[i] - 0.01
-    print("Antidotes used1: " + str(sum))
+    # print("Antidotes used1: " + str(sum))
     return recoveryRates 
 
 def calculateDegreeInfection(InfectedNodes, graph, N, numTrials, transmissionRate, initial_rec, budget):
