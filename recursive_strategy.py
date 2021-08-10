@@ -217,8 +217,12 @@ def newStrategy(graph_dict, recovery_rates, budget, gap_threshold, boundary_thre
     recovery_rates, budget = min_cut_antidotes(graph_dict, node_list, budget, nodes1, nodes2, recovery_rates, boundary_threshold)
     # print("after" + str(budget))
     if (budget > 0):
-      budget1 = budget * (len1 / (len1 + len2))
-      budget2 = budget * (len2 / (len1 + len2))
+      if len1 + len2 != 0:
+        budget1 = budget * (len1 / (len1 + len2))
+        budget2 = budget * (len2 / (len1 + len2))
+      else:
+        budget1 = budget/2
+        budget2 = budget/2  
       newStrategy(graph_dict1, recovery_rates, budget1, gap_threshold, boundary_threshold, nodes1)
       newStrategy(graph_dict2, recovery_rates, budget2, gap_threshold, boundary_threshold, nodes2)
   else:
