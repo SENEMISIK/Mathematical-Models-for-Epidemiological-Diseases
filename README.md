@@ -14,5 +14,7 @@ Understand the optimality of SOTA algorithms in preventing an epidemic. Can we s
 Understand what happens above the epidemic threshold. Are the SOTA algorithms applicable and useful above the epidemic threshold (that is, when the outbreak is not exponentially decreasing)? What other algorithms can yield better guarantees for some or all graphs? (eg, graphs with strong community structure)
 
 [1] Efficient Containment of Exact SIR Markovian Processes on Networks 
+
 [2] Optimal Resource Allocation for Network Protection Against Spreading Processes 
+
 [3] How to distribute antidote to control epidemics - Borgs - 2010 - Random Structures & Algorithms 
